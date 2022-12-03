@@ -26,6 +26,7 @@ classifiers = [
 
 dependencies = [
     "pep517 >= 0.9.1",
+    "dataclasses-json >= 0.5.7",
 ]
 
 [project.optional-dependencies]
