@@ -10,6 +10,8 @@ def test_basic_cards():
         .setBottomLabel('Software engineer')  \
         .setStartIcon(cardSection1DecoratedText1Icon1)
 
+    cardSection1Divider1 = CardService.newDivider()
+
     cardSection1DecoratedText2Icon1 = CardService.newIconImage()  \
         .setIconUrl('https://happyfacesparty.com/wp-content/uploads/2019/06/avataaars-Brittany.png')
 
@@ -17,6 +19,8 @@ def test_basic_cards():
         .setText('Jane Doe')  \
         .setBottomLabel('Product manager')  \
         .setStartIcon(cardSection1DecoratedText2Icon1)
+
+    cardSection1Divider2 = CardService.newDivider()
 
     cardSection1DecoratedText3Icon1 = CardService.newIconImage()  \
         .setIconUrl('https://i2.wp.com/tunisaid.org/wp-content/uploads/2019/03/avataaars-2.png?ssl=1')
@@ -29,13 +33,18 @@ def test_basic_cards():
     cardSection1 = CardService.newCardSection()  \
         .setHeader('List of users')  \
         .addWidget(cardSection1DecoratedText1)  \
+        .addWidget(cardSection1Divider1) \
         .addWidget(cardSection1DecoratedText2)  \
+        .addWidget(cardSection1Divider2) \
         .addWidget(cardSection1DecoratedText3)  \
 
     card = CardService.newCardBuilder()  \
         .addSection(cardSection1)  \
         .build()
 
+    expected = {'action': {'navigations': [{'pushCard': {'sections': [{'widgets': [{'decoratedText': {'bottomLabel': 'Software engineer', 'startIcon': {'iconUrl': 'https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png'}, 'text': 'John Doe'}}, {'divider': {}}, {'decoratedText': {'bottomLabel': 'Product manager', 'startIcon': {'iconUrl': 'https://happyfacesparty.com/wp-content/uploads/2019/06/avataaars-Brittany.png'}, 'text': 'Jane Doe'}}, {'divider': {}}, {'decoratedText': {'bottomLabel': 'Vice president', 'startIcon': {'iconUrl': 'https://i2.wp.com/tunisaid.org/wp-content/uploads/2019/03/avataaars-2.png?ssl=1'}, 'text': 'Jamie Doe'}}], 'collapsible': False, 'header': 'List of users'}]}}]}}
+
+    assert card == expected
     print(card)
 
 
