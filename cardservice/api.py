@@ -1,7 +1,7 @@
 
 
 from dataclasses import dataclass, field
-from dataclasses_json import dataclass_json, config
+from dataclasses_json import dataclass_json, config, LetterCase
 
 from .decorators import appscript
 from .constants import (BorderType, ComposedEmailType, ContentType,
@@ -11,8 +11,9 @@ from .constants import (BorderType, ComposedEmailType, ContentType,
                         TextButtonStyle, UpdateDraftBodyType)
 from .utilities import delete_none
 
+
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Person:
     friends: list
@@ -21,7 +22,7 @@ class Person:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Action:
     function_name: str = None
@@ -30,7 +31,7 @@ class Action:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ActionResponse:
 
@@ -39,7 +40,7 @@ class ActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class IconImage:
     alt_text: str = None
@@ -49,7 +50,7 @@ class IconImage:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class OpenLink:
     on_close: OnClose = None
@@ -58,7 +59,7 @@ class OpenLink:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Navigation:
 
@@ -88,14 +89,14 @@ class Navigation:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Notification:
     text: str = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ActionResponseBuilder:
     navigation:	Navigation = None
@@ -109,7 +110,7 @@ class ActionResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Attachment:
     icon_url: str = ''
@@ -119,14 +120,14 @@ class Attachment:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class AuthorizationAction:
     authorization_url: str = ''
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class AuthorizationException:
     authorization_url: str = ''
@@ -143,7 +144,7 @@ class AuthorizationException:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class BorderStyle:
     corner_radius: int = 8
@@ -152,7 +153,7 @@ class BorderStyle:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Button:
     authorization_action: Action = None
@@ -163,14 +164,14 @@ class Button:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ButtonSet:
     button: list[Button] = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Card:
 
@@ -180,7 +181,7 @@ class Card:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CardAction:
     authorization_action: AuthorizationAction = None
@@ -192,7 +193,7 @@ class CardAction:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CardHeader:
     image_alt_text: str = ''
@@ -203,7 +204,7 @@ class CardHeader:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class TextButton:
     alt_text: str = ''
@@ -219,7 +220,7 @@ class TextButton:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class FixedFooter:
     primary_button: TextButton = None
@@ -227,14 +228,14 @@ class FixedFooter:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Divider:
     pass
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DriveItemsSelectedActionResponse:
 
@@ -244,7 +245,7 @@ class DriveItemsSelectedActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DriveItemsSelectedActionResponseBuilder:
 
@@ -258,7 +259,7 @@ class DriveItemsSelectedActionResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class EditorFileScopeActionResponse:
 
@@ -268,7 +269,7 @@ class EditorFileScopeActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class EditorFileScopeActionResponseBuilder:
 
@@ -282,7 +283,7 @@ class EditorFileScopeActionResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Switch:
     control_type: SwitchControlType = SwitchControlType.SWITCH
@@ -293,7 +294,7 @@ class Switch:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DecoratedText:
     authorization_action: Action = None
@@ -311,9 +312,8 @@ class DecoratedText:
     wrap_text: str = None
 
 
-
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DatePicker:
     field_name: str = ''
@@ -323,7 +323,7 @@ class DatePicker:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DateTimePicker:
     field_name: str = ''
@@ -334,7 +334,7 @@ class DateTimePicker:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Image:
     alt_text: str = ''
@@ -347,7 +347,7 @@ class Image:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ImageButton:
     alt_text: str = ''
@@ -361,7 +361,7 @@ class ImageButton:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ImageCropStyle:
     aspect_ratio: float = 1.0
@@ -369,7 +369,7 @@ class ImageCropStyle:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ImageComponent:
     alt_text: str = ''
@@ -379,17 +379,17 @@ class ImageComponent:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CardSection:
     widget: list = field(metadata=config(field_name="widgets"), default=None)
     collapsible: bool = False
     header: str = ""
-    num_uncollapsible_widgets: int = 0
+    num_uncollapsible_widgets: int = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CardBuilder:
     card_action: list[CardAction] = None
@@ -404,14 +404,25 @@ class CardBuilder:
     def build(self):
         """Build the current card and validates it."""
         card = self.to_dict()
+        card['sections'] = []
+        for section in self.section:
+            d_section = section.to_dict()
+            d_section['widgets'] = []
+            for widget in section.widget:
+                name = widget.__class__.__name__
+                name = name[0].lower() + name[1:]
+                d_section['widgets'].append({name: widget.to_dict()})
+            card['sections'].append(d_section)
+
         card = delete_none(card)
         print(card)
-        import ipdb; ipdb.set_trace()
-        return card
+
+        page = {"action": {"navigations": [{"pushCard": card}]}}
+        return page
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ComposeActionResponse:
 
@@ -421,7 +432,7 @@ class ComposeActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ComposeActionResponseBuilder:
     # gmail_draft: GmailDraft = None
@@ -432,7 +443,7 @@ class ComposeActionResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ConferenceData:
 
@@ -442,7 +453,7 @@ class ConferenceData:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CalendarEventActionResponse:
 
@@ -452,7 +463,7 @@ class CalendarEventActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CalendarEventActionResponseBuilder:
     attachments: list[Attachment] = None
@@ -465,7 +476,7 @@ class CalendarEventActionResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class GridItem:
     identifier: str = None
@@ -477,7 +488,7 @@ class GridItem:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Grid:
     item: list[GridItem] = None
@@ -492,7 +503,7 @@ class Grid:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SelectionInput:
     item: list[tuple[str, str, bool]] = None
@@ -503,7 +514,7 @@ class SelectionInput:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Suggestions:
     suggestion: list[str] = None
@@ -511,7 +522,7 @@ class Suggestions:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SuggestionsResponse:
 
@@ -521,7 +532,7 @@ class SuggestionsResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SuggestionsResponseBuilder:
     suggestions: Suggestions = None
@@ -532,7 +543,7 @@ class SuggestionsResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class TextInput:
     field_name: str = ''
@@ -546,14 +557,14 @@ class TextInput:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class TextParagraph:
     text: str = ''
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class TimePicker:
     field_name: str = ''
@@ -564,7 +575,7 @@ class TimePicker:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UniversalActionResponse:
     def printJson(self):
@@ -573,7 +584,7 @@ class UniversalActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UniversalActionResponseBuilder:
     open_link: OpenLink = None
@@ -588,7 +599,7 @@ class UniversalActionResponseBuilder:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftActionResponse:
     def printJson(self):
@@ -597,14 +608,14 @@ class UpdateDraftActionResponse:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftBccRecipientsAction:
     update_bcc_recipients: list[str] = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftBodyAction:
     update_content: list[str, ContentType] = None
@@ -612,28 +623,28 @@ class UpdateDraftBodyAction:
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftCcRecipientsAction:
     update_cc_recipients: list[str] = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftSubjectAction:
     update_subject: list[str] = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftToRecipientsAction:
     update_to_recipients: list[str] = None
 
 
 @appscript
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftActionResponseBuilder:
     update_draft_bcc_recipients_action: UpdateDraftBccRecipientsAction = None
@@ -645,9 +656,3 @@ class UpdateDraftActionResponseBuilder:
     def build(self):
         """Builds the current universal action response and validates it."""
         return UpdateDraftActionResponse()
-
-
-
-# Not completed classes
-# ComposeActionResponseBuilder
-# missing classes
