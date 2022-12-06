@@ -32,6 +32,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+demo = [
+    "fastapi",
+    "uvicorn",
+]
+
 docs = [
     "codecov",
     "coverage",
