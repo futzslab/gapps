@@ -158,7 +158,8 @@ class BorderStyle:
 class Button:
     authorization_action: Action = None
     compose_action: tuple[Action, ComposedEmailType] = None
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
 
@@ -167,7 +168,12 @@ class Button:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ButtonSet:
-    button: list[Button] = None
+    button: list[Button] = field(metadata=config(field_name="buttons"),
+                                 default=None)
+
+    def field_name(self):
+        """Return and override classname."""
+        return "buttonList"
 
 
 @appscript
@@ -207,12 +213,13 @@ class CardHeader:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class TextButton:
-    alt_text: str = ''
+    alt_text: str = None
     authorization_action: AuthorizationAction = None
-    background_color: str = TextButtonStyle.TEXT
+    background_color: str = None
     compose_action: tuple[Action, ComposedEmailType] = None
     disabled: bool = False
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
     text_button_style: TextButtonStyle = TextButtonStyle.TEXT
@@ -250,11 +257,11 @@ class DriveItemsSelectedActionResponse:
 class DriveItemsSelectedActionResponseBuilder:
 
     def build(self):
-        """Builds the current action response and validates it."""
+        """Build the current action response and validates it."""
         return DriveItemsSelectedActionResponse()
 
     def requestFileScope(self, itemId):
-        """Requests file scope."""
+        """Request file scope."""
         return self
 
 
@@ -264,7 +271,7 @@ class DriveItemsSelectedActionResponseBuilder:
 class EditorFileScopeActionResponse:
 
     def printJson(self):
-        """Prints the JSON representation of this object."""
+        """Print the JSON representation of this object."""
         print(self.to_json())
 
 
@@ -274,11 +281,11 @@ class EditorFileScopeActionResponse:
 class EditorFileScopeActionResponseBuilder:
 
     def build(self):
-        """Builds the current action response and validates it."""
+        """Build the current action response and validates it."""
         return EditorFileScopeActionResponse()
 
     def requestFileScopeForActiveDocument(self, itemId):
-        """Requests file scope."""
+        """Request file scope."""
         return self
 
 
@@ -409,8 +416,12 @@ class CardBuilder:
             d_section = section.to_dict()
             d_section['widgets'] = []
             for widget in section.widget:
-                name = widget.__class__.__name__
-                name = name[0].lower() + name[1:]
+                if hasattr(widget, "field_name") and  \
+                   callable(getattr(widget, "field_name")):
+                    name = widget.field_name()
+                else:
+                    name = widget.__class__.__name__
+                    name = name[0].lower() + name[1:]
                 d_section['widgets'].append({name: widget.to_dict()})
             card['sections'].append(d_section)
 
