@@ -9,7 +9,7 @@ from .constants import (BorderType, ComposedEmailType, ContentType,
                         Icon, ImageCropType, ImageStyle, LoadIndicator,
                         OnClose, OpenAs, SelectionInputType, SwitchControlType,
                         TextButtonStyle, UpdateDraftBodyType)
-from .utilities import delete_none
+from .utilities import delete_none, update_actions, hex2floats, floats2hex
 
 
 @appscript
@@ -24,8 +24,18 @@ class Person:
 @appscript
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
+class SelectionItem:
+    text: str = ''
+    value: str = ''
+    selected: bool = False
+
+
+@appscript
+@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass
 class Action:
-    function_name: str = None
+    function_name: str = field(metadata=config(field_name="function"),
+                               default=None)
     load_indicator: LoadIndicator = None
     parameters: dict = None
 
@@ -192,7 +202,8 @@ class Card:
 class CardAction:
     authorization_action: AuthorizationAction = None
     compose_action: tuple[Action, ComposedEmailType] = None
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
     text: str = ''
@@ -203,7 +214,9 @@ class CardAction:
 @dataclass
 class CardHeader:
     image_alt_text: str = ''
-    image_style: ImageStyle = ImageStyle.CIRCLE
+    image_style: ImageStyle = field(metadata=config(encoder=lambda x: x.value,
+                                                    decoder=ImageStyle),
+                                    default=ImageStyle.CIRCLE)
     image_url: str = ''
     subtitle: str = ''
     title: str = ''
@@ -215,14 +228,24 @@ class CardHeader:
 class TextButton:
     alt_text: str = None
     authorization_action: AuthorizationAction = None
-    background_color: str = None
+    background_color: str = field(
+        metadata=config(
+            field_name="color",
+            encoder=lambda x: {k: v for k, v in zip(["red", "green", "blue"],
+                                                    hex2floats(x))}
+            if x else None,
+            decoder=lambda x: floats2hex([x.values()]) if x else None),
+        default=None)
     compose_action: tuple[Action, ComposedEmailType] = None
     disabled: bool = False
     on_click_action: Action = field(metadata=config(field_name="onClick"),
                                     default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
-    text_button_style: TextButtonStyle = TextButtonStyle.TEXT
+    text_button_style: TextButtonStyle = field(
+        metadata=config(encoder=lambda x: x.value, decoder=TextButtonStyle,
+                        field_name="buttonStyle", exclude=lambda x: True),
+        default=TextButtonStyle.TEXT)
     text: str = ''
 
 
@@ -293,8 +316,10 @@ class EditorFileScopeActionResponseBuilder:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Switch:
-    control_type: SwitchControlType = SwitchControlType.SWITCH
-    field_name: str = ''
+    control_type: SwitchControlType = field(metadata=config(encoder=lambda x: x.value,
+                                                            decoder=SwitchControlType),
+                                            default=SwitchControlType.SWITCH)
+    field_name: str = field(metadata=config(field_name="name"), default='')
     on_change_action: Action = None
     selected: bool = False
     value: str = ''
@@ -309,7 +334,8 @@ class DecoratedText:
     button: Button = None
     compose_action: tuple[Action, ComposedEmailType] = None
     end_icon: IconImage = None
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
     start_icon: IconImage = None
@@ -333,11 +359,13 @@ class DatePicker:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DateTimePicker:
-    field_name: str = ''
+    field_name: str = field(metadata=config(field_name="name"), default='')
     on_change_action: Action = None
-    time_zone_offset_in_mins: int = 0
-    title: str = ''
-    value_in_ms_since_epoch: int = 0
+    time_zone_offset_in_mins: int = field(
+        metadata=config(field_name="timezoneOffsetDate"), default=0)
+    title: str = field(metadata=config(field_name="label"), default='')
+    value_in_ms_since_epoch: int = field(
+        metadata=config(field_name="valueMsEpoch"), default=0)
 
 
 @appscript
@@ -348,7 +376,8 @@ class Image:
     authorization_action: AuthorizationAction = None
     compose_action: tuple[Action, ComposedEmailType] = None
     image_url: str = ''
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
 
@@ -362,7 +391,8 @@ class ImageButton:
     compose_action: tuple[Action, ComposedEmailType] = None
     icon: Icon = Icon.NONE
     icon_url: str = ''
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
 
@@ -372,7 +402,9 @@ class ImageButton:
 @dataclass
 class ImageCropStyle:
     aspect_ratio: float = 1.0
-    image_crop_type: ImageCropType = ImageCropType.CIRCLE
+    image_crop_type: ImageCropType = field(metadata=config(encoder=lambda x: x.value,
+                                                            decoder=ImageCropType),
+                                            default=ImageCropType.CIRCLE)
 
 
 @appscript
@@ -426,6 +458,7 @@ class CardBuilder:
             card['sections'].append(d_section)
 
         card = delete_none(card)
+        card = update_actions(card)
         print(card)
 
         page = {"action": {"navigations": [{"pushCard": card}]}}
@@ -492,9 +525,14 @@ class CalendarEventActionResponseBuilder:
 class GridItem:
     identifier: str = None
     image: ImageComponent = None
-    layout: GridItemLayout = GridItemLayout.TEXT_BELOW
+    layout: GridItemLayout = field(metadata=config(encoder=lambda x: x.value,
+                                                   decoder=GridItemLayout),
+                                   default=GridItemLayout.TEXT_BELOW)
     subtitle: str = None
-    text_alignment: HorizontalAlignment = HorizontalAlignment.START
+    text_alignment: HorizontalAlignment = field(
+        metadata=config(encoder=lambda x: x.value,
+                        decoder=HorizontalAlignment),
+        default=HorizontalAlignment.START)
     title: str = None
 
 
@@ -507,7 +545,8 @@ class Grid:
     border_style: BorderStyle = BorderStyle()
     compose_action: tuple[Action, ComposedEmailType] = None
     num_columns: int = 1
-    on_click_action: Action = None
+    on_click_action: Action = field(metadata=config(field_name="onClick"),
+                                    default=None)
     on_click_open_link_action: Action = None
     open_link: OpenLink = None
     title: str = ''
@@ -517,11 +556,14 @@ class Grid:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SelectionInput:
-    item: list[tuple[str, str, bool]] = None
-    field_name: str = ''
+    item: list[SelectionItem] = field(
+        metadata=config(field_name="selection_item"), default=None)
+    field_name: str = field(metadata=config(field_name="name"), default='')
     on_change_action: Action = None
-    title: str = ''
-    type: SelectionInputType = SelectionInputType.DROPDOWN
+    title: str = field(metadata=config(field_name="label"), default='')
+    type: SelectionInputType = field(
+        metadata=config(encoder=lambda x: x.value, decoder=SelectionInputType),
+        default=SelectionInputType.DROPDOWN)
 
 
 @appscript
@@ -557,13 +599,18 @@ class SuggestionsResponseBuilder:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class TextInput:
-    field_name: str = ''
-    hint: str = ''
-    multiline: bool = False
+    field_name: str = field(metadata=config(field_name="name"), default='')
+    hint: str = field(metadata=config(field_name="hintText"), default='')
+    multiline: bool = field(
+        metadata=config(
+            field_name="type",
+            encoder=lambda x: 'MULTIPLE_LINE' if x else 'SINGLE_LINE',
+            decoder=lambda x: x == 'MULTIPLE_LINE'),
+        default=False)
     on_change_action: Action = None
     suggestions: Suggestions = None
     suggestions_action: Action = None
-    title: str = ''
+    title: str = field(metadata=config(field_name="label"), default='')
     value: str = ''
 
 
