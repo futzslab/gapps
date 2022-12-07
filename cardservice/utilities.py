@@ -30,6 +30,41 @@ def delete_none(_dict):
     return _dict
 
 
+def update_actions(_dict):
+    """Delete None values recursively from all of the dictionaries
+
+    Parameters
+    ----------
+    _dict : dict
+        dictionnaries containing None values
+
+    Returns
+    -------
+    _dict : dict
+        dictionnaries without any None values
+
+    """
+    for key, value in list(_dict.items()):
+        print(key)
+        if key in ['onClick']:
+            if not isinstance(value['parameters'], list):
+                value['parameters'] = [value['parameters']]
+            _dict[key] = {'action': value}
+        elif key == 'selection_item':
+            # import ipdb; ipdb.set_trace()
+            del _dict[key]
+            _dict["items"] = [{'text': text, 'value': val, 'selected': sel}
+                              for text, val, sel in value]
+        elif isinstance(value, dict):
+            update_actions(value)
+        elif isinstance(value, list):
+            for v_i in value:
+                if isinstance(v_i, dict):
+                    update_actions(v_i)
+
+    return _dict
+
+
 def decode_user(token: str):
     """Decode Google User ID Token.
 
@@ -69,3 +104,19 @@ def decode_email(token: str):
     """
     user = decode_user(token)
     return user.get("email", "")
+
+
+def hex2floats(h):
+    """Take a hex rgb string (e.g. #ffffff) and returns an RGB tuple (float, float, float)."""
+    if not h:
+        return None
+    return tuple(int(h[i:i + 2], 16) / 255. for i in (1, 3, 5)) # skip '#'
+
+
+def floats2hex(rgb):
+    """Takes an RGB tuple or list and returns a hex RGB string."""
+    if not rgb:
+        return None
+    return f'#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}'
+
+
