@@ -19,15 +19,15 @@ async def root():
 
 @app.post("/homepage", response_class=JSONResponse)
 async def homepage(gevent: models.GEvent):
-    # user_token = gevent.authorizationEventObject.userOAuthToken
-    # print(f"USER TOKEN: {user_token}")
-    # user_info = decode_user(gevent.authorizationEventObject.userIdToken)
-    # print(f"USER INFO: {user_info}")
-    # email = decode_email(gevent.authorizationEventObject.userIdToken)
-    # print(f"USER email: {email}")
+    user_info = decode_user(gevent.authorizationEventObject.userIdToken)
+    print(f"USER INFO: {user_info}")
+    email = decode_email(gevent.authorizationEventObject.userIdToken)
+    print(f"USER email: {email}")
 
-    cards = [build_users_list_card, build_multi_section_card, build_user_card]
-    # page = build_user_card()  # random.choice(cards)()
+    cards = [build_users_list_card, build_multi_section_card, build_user_card,
+             build_email_card, build_form_controls_card]
+
+    # Select a random card to display
     page = random.choice(cards)()
     return page
 
@@ -199,6 +199,152 @@ def build_user_card():
         .addWidget(cardSection1DecoratedText5)  \
         .addWidget(cardSection1DecoratedText6)  \
         .addWidget(cardSection1ButtonList1)
+
+    card = CardService.newCardBuilder()  \
+        .addSection(cardSection1)  \
+        .build()
+    return card
+
+
+def build_email_card():
+    cardSection1DecoratedText1Button1Action1 = CardService.newAction()  \
+        .setFunctionName('TODO')  \
+        .setParameters({})
+
+    cardSection1DecoratedText1Button1 = CardService.newTextButton()  \
+        .setText('REPLY')  \
+        .setTextButtonStyle(CardService.TextButtonStyle.TEXT)  \
+        .setOnClickAction(cardSection1DecoratedText1Button1Action1)  \
+
+    cardSection1DecoratedText1 = CardService.newDecoratedText()  \
+        .setText('john.doe@mail.com')  \
+        .setBottomLabel('sender')  \
+        .setButton(cardSection1DecoratedText1Button1)
+
+    cardSection1DecoratedText2 = CardService.newDecoratedText()  \
+        .setTopLabel('Nov 8')  \
+        .setText(
+            'Chocolate Factory Tour  — Congratulations on finding the golden ticket! The tour begins.'
+        )  \
+        .setWrapText(True)
+
+    cardSection1DecoratedText3 = CardService.newDecoratedText()  \
+        .setText('Location details')
+
+    cardSection1DecoratedText4Icon1 = CardService.newIconImage()  \
+        .setIconUrl(
+            'https://fonts.gstatic.com/s/i/googlematerialicons/location_on/v6/grey600-36dp/1x/gm_location_on_grey600_36dp.png'
+        )
+
+    cardSection1DecoratedText4 = CardService.newDecoratedText()  \
+        .setText('274 Beacon Dr, Bradenton, FL 34203')  \
+        .setStartIcon(cardSection1DecoratedText4Icon1)  \
+        .setWrapText(True)
+
+    cardSection1Image1 = CardService.newImage()  \
+        .setImageUrl('https://huurbs.com/images/google-map.jpg')  \
+        .setAltText('Placeholder image')  \
+
+    cardSection1 = CardService.newCardSection()  \
+        .setHeader('Contact details')  \
+        .addWidget(cardSection1DecoratedText1)  \
+        .addWidget(cardSection1DecoratedText2)  \
+        .addWidget(cardSection1DecoratedText3)  \
+        .addWidget(cardSection1DecoratedText4)  \
+        .addWidget(cardSection1Image1)
+
+    card = CardService.newCardBuilder()  \
+        .addSection(cardSection1)  \
+        .build()
+    return card
+
+
+def build_form_controls_card():
+    cardSection1TextInput1 = CardService.newTextInput()  \
+        .setFieldName('name')  \
+        .setTitle('Name')  \
+        .setMultiline(False)
+
+    cardSection1TextInput2 = CardService.newTextInput()  \
+        .setFieldName('email')  \
+        .setTitle('Email')  \
+        .setMultiline(False)
+
+    cardSection1TextInput3 = CardService.newTextInput()  \
+        .setFieldName('address')  \
+        .setTitle('Address')  \
+        .setMultiline(True)
+
+    cardSection1DatePTimePicker1 = CardService.newDateTimePicker()  \
+        .setFieldName('dateTime')  \
+        .setTitle('Pick a date and time')
+
+    cardSection1DecoratedText1Switch1 = CardService.newSwitch()  \
+        .setControlType(CardService.SwitchControlType.CHECK_BOX)  \
+        .setFieldName('saveFavorite')
+
+    cardSection1DecoratedText1 = CardService.newDecoratedText()  \
+        .setText('Add to favorites')  \
+        .setSwitchControl(cardSection1DecoratedText1Switch1)
+
+    cardSection1DecoratedText2Switch1 = CardService.newSwitch()  \
+        .setControlType(CardService.SwitchControlType.CHECK_BOX)  \
+        .setFieldName('mergeContact')
+
+    cardSection1DecoratedText2 = CardService.newDecoratedText()  \
+        .setText('Merge with existing contacts')  \
+        .setSwitchControl(cardSection1DecoratedText2Switch1)
+
+    cardSection1SelectionInput1 = CardService.newSelectionInput()  \
+        .setFieldName('contactType')  \
+        .setTitle('Contact type')  \
+        .setType(CardService.SelectionInputType.RADIO_BUTTON)  \
+        .addItem('Work', 'Work', False)  \
+        .addItem('Personal', 'Personal', False)
+
+    cardSection1ButtonList1Button1Action1 = CardService.newAction()  \
+        .setFunctionName('TODO')  \
+        .setParameters({})
+
+    cardSection1ButtonList1Button1 = CardService.newTextButton()  \
+        .setText('Submit')  \
+        .setBackgroundColor('#66b73a')  \
+        .setTextButtonStyle(CardService.TextButtonStyle.FILLED)  \
+        .setOnClickAction(cardSection1ButtonList1Button1Action1)
+
+    cardSection1ButtonList1Button2Action1 = CardService.newAction()  \
+        .setFunctionName('TODO')  \
+        .setParameters({})
+
+    cardSection1ButtonList1Button2 = CardService.newTextButton()  \
+        .setText('EDIT')  \
+        .setTextButtonStyle(CardService.TextButtonStyle.TEXT)  \
+        .setOnClickAction(cardSection1ButtonList1Button2Action1)
+
+    cardSection1ButtonList1Button3Action1 = CardService.newAction()  \
+        .setFunctionName('TODO')  \
+        .setParameters({})
+
+    cardSection1ButtonList1Button3 = CardService.newTextButton()  \
+        .setText('MORE..')  \
+        .setTextButtonStyle(CardService.TextButtonStyle.TEXT)  \
+        .setOnClickAction(cardSection1ButtonList1Button3Action1)
+
+    cardSection1ButtonList1 = CardService.newButtonSet()  \
+        .addButton(cardSection1ButtonList1Button1)  \
+        .addButton(cardSection1ButtonList1Button2)  \
+        .addButton(cardSection1ButtonList1Button3)
+
+    cardSection1 = CardService.newCardSection()  \
+        .setHeader('Add new contact')  \
+        .addWidget(cardSection1TextInput1)  \
+        .addWidget(cardSection1TextInput2)  \
+        .addWidget(cardSection1TextInput3)  \
+        .addWidget(cardSection1DatePTimePicker1)  \
+        .addWidget(cardSection1DecoratedText1)  \
+        .addWidget(cardSection1DecoratedText2)  \
+        .addWidget(cardSection1SelectionInput1)  \
+        .addWidget(cardSection1ButtonList1)  \
 
     card = CardService.newCardBuilder()  \
         .addSection(cardSection1)  \
