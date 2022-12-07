@@ -9,30 +9,31 @@ def to_camel_case(snake_str):
 
 
 def appscript(*args, **kwargs):
+
     def wrapper(cls, **kwargs1):
 
         if not hasattr(cls, '__annotations__'):
             return cls
 
-        # if cls.__name__ == 'CardBuilder':
+        # if cls.__name__ == 'SelectionInput':
         #     import ipdb; ipdb.set_trace()
 
         for key, t_value in cls.__annotations__.items():
 
             def create_function(cls_key):
-                def run_(self, val):
+                def _run(self, val):
                     setattr(self, cls_key, val)
                     return self
-                return run_
+                return _run
 
             def create_add_function(cls_key):
-                def run_(self, val):
+                def _run_add(self, *val):
                     current = getattr(self, cls_key)
                     current = current or []
-                    current.append(val)
+                    current.append(*val) if len(val) == 1 else current.append(val)
                     setattr(self, cls_key, current)
                     return self
-                return run_
+                return _run_add
 
             if t_value is list:
                 setattr(cls, to_camel_case(f"add_{key}"), create_add_function(key))
