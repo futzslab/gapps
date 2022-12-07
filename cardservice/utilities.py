@@ -45,7 +45,6 @@ def update_actions(_dict):
 
     """
     for key, value in list(_dict.items()):
-        print(key)
         if key in ['onClick']:
             if not isinstance(value['parameters'], list):
                 value['parameters'] = [value['parameters']]
