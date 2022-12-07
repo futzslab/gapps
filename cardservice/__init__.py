@@ -180,7 +180,7 @@ def newOpenLink():
 
 def newSelectionInput():
     """Create a new SelectionInput."""
-    return SelectionInput
+    return SelectionInput()
 
 
 def newSuggestions():
