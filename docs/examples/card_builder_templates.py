@@ -14,7 +14,7 @@ app = FastAPI(title="Cards Generator")
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to my bookstore app!"}
+    return {"message": "Welcome to Card Generator example!"}
 
 
 @app.post("/homepage", response_class=JSONResponse)
