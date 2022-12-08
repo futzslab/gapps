@@ -53,7 +53,65 @@ class GmailEvent(BaseModel):
     bccRecipients: List[str] = []
 
 
-# class CalendarEvent(BaseModel):
+class Organizer(BaseModel):
+    email: str = None
+
+
+class Capabilities(BaseModel):
+    canSeeAttendees: bool = None
+    canAddAttendees: bool = None
+    canSeeConferenceData: bool = None
+    canSetConferenceData: bool = None
+
+
+class Attendee(BaseModel):
+    email: str = None
+    optional: bool = None
+    displayName: str = None
+    organizer: bool = None
+    # self: bool = None
+    resource: bool = None
+    responseStatus: str = None
+    comment: str = None
+    additionalGuests: int = None
+
+
+class ConferenceSolution(BaseModel):
+    iconUri: str = None
+    key: dict = None
+    name: str = None
+
+
+class EntryPoint(BaseModel):
+    accessCode: str = None
+    entryPointFeatures: List[str] = None
+    entryPointType: str = None
+    label: str = None
+    meetingCode: str = None
+    passcode: str = None
+    password: str = None
+    pin: str = None
+    regionCode: str = None
+    uri: str = None
+
+
+class ConferenceData(BaseModel):
+    conferenceId: str = None
+    conferenceSolution: ConferenceSolution = None
+    entryPoints: List[EntryPoint] = None
+    notes: str = None
+    parameters: dict = None
+
+
+class CalendarEvent(BaseModel):
+    id: str = None
+    recurringEventId: str = None
+    calendarId: str = None
+    organizer: Organizer = None
+    attendees: List[Attendee] = []
+    conferenceData: ConferenceData = None
+    capabilities: Capabilities = None
+
 
 class GEvent(BaseModel):
     commonEventObject: CommonEvent
@@ -63,4 +121,4 @@ class GEvent(BaseModel):
     sheets: EditorEvent = None
     slides: EditorEvent = None
     gmail: GmailEvent = None
-    # calendar: CalendarEvent = None
+    calendar: CalendarEvent = None
