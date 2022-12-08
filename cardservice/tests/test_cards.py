@@ -315,5 +315,43 @@ def build_form_controls_card():
     return card
 
 
+def test_footer():
+    cardFooter1Button1Action1 = CardService.newAction()  \
+        .setFunctionName('https://gwa.momentz.fr/')  \
+        .setParameters({})
+
+    cardFooter1Button1Action2 = CardService.newAction()  \
+        .setFunctionName('ttps://gwa.momentz.fr/2')  \
+        .setParameters({})
+
+    cardFooter1Button1OpenLink1 = CardService.newOpenLink()  \
+        .setUrl('https://example.com')
+
+    cardFooter1Button1 = CardService.newTextButton()  \
+        .setText('Click me')  \
+        .setOnClickAction(cardFooter1Button1Action1)  \
+        .setOnClickOpenLinkAction(cardFooter1Button1Action2)  \
+        .setOpenLink(cardFooter1Button1OpenLink1)
+
+    cardFooter1 = CardService.newFixedFooter()  \
+        .setPrimaryButton(cardFooter1Button1)
+
+    cardSection1DecoratedText1Icon1 = CardService.newIconImage()  \
+        .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')
+    cardSection1DecoratedText1 = CardService.newDecoratedText()  \
+        .setText('John Doe')  \
+        .setBottomLabel('Software Developer')  \
+        .setStartIcon(cardSection1DecoratedText1Icon1)
+
+    cardSection1 = CardService.newCardSection()  \
+        .setHeader('My Profile')  \
+        .addWidget(cardSection1DecoratedText1)
+
+    card = CardService.newCardBuilder()  \
+        .setFixedFooter(cardFooter1) \
+        .addSection(cardSection1)  \
+        .build()
+
 # build_user_card()
 # build_form_controls_card()
+test_footer()
