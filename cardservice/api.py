@@ -78,28 +78,35 @@ class OpenLink:
 class Navigation:
 
     def popCard(self):
-        """Pops a card from the navigation stack."""
-        return {}
+        """Pop a card from the navigation stack."""
+        res = [{"popCard": True}]
+        return res
 
-    def popToNamedCard(self, cardName):
-        """Pops to the specified card by its card name."""
-        return {}
+    def popToNamedCard(self, card_name):
+        """Pop to the specified card by its card name."""
+        res = [{"popToCard": card_name}]
+        return res
 
     def popToRoot(self):
-        """Pops the card stack to the root card."""
-        return {}
-
-    def printJson(self):
-        """Prints the JSON representation of this object."""
-        print(self.to_json())
+        """Pop the card stack to the root card."""
+        res = [{"popToRoot": True}]
+        return res
 
     def pushCard(self, card):
-        """Pushes the given card onto the stack."""
-        return {}
+        """Push the given card onto the stack."""
+        card = card["action"]["navigations"][0]["pushCard"]
+        res = [{"pushCard": card}]
+        return res
 
     def updateCard(self, card):
-        """Updates the current card with the given card."""
-        return {}
+        """Update the current card with the given card."""
+        card = card["action"]["navigations"][0]["pushCard"]
+        res = [{"updateCard": card}]
+        return res
+
+    def printJson(self):
+        """Print the JSON representation of this object."""
+        print(self.to_json())
 
 
 @appscript
@@ -113,14 +120,19 @@ class Notification:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ActionResponseBuilder:
-    navigation:	Navigation = None
+    navigation:	Navigation = field(metadata=config(field_name="navigations"),
+                                   default=None)
     notification: Notification = None
     open_link: OpenLink = None
-    state_changed: bool = False
+    state_changed: bool = None
 
     def build(self):
-        """Builds the current action response and validates it."""
-        return ActionResponse()
+        """Build the current action response and validates it."""
+        card = self.to_dict()
+        card = delete_none(card)
+        card = {'renderActions': {"action": card}}
+        print(card)
+        return card
 
 
 @appscript
@@ -322,9 +334,9 @@ class EditorFileScopeActionResponseBuilder:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Switch:
-    control_type: SwitchControlType = field(metadata=config(encoder=lambda x: x.value,
-                                                            decoder=SwitchControlType),
-                                            default=SwitchControlType.SWITCH)
+    control_type: SwitchControlType = field(
+        metadata=config(encoder=lambda x: x.value, decoder=SwitchControlType),
+        default=SwitchControlType.SWITCH)
     field_name: str = field(metadata=config(field_name="name"), default='')
     on_change_action: Action = None
     selected: bool = False
@@ -408,9 +420,9 @@ class ImageButton:
 @dataclass
 class ImageCropStyle:
     aspect_ratio: float = 1.0
-    image_crop_type: ImageCropType = field(metadata=config(encoder=lambda x: x.value,
-                                                            decoder=ImageCropType),
-                                            default=ImageCropType.CIRCLE)
+    image_crop_type: ImageCropType = field(
+        metadata=config(encoder=lambda x: x.value, decoder=ImageCropType),
+        default=ImageCropType.CIRCLE)
 
 
 @appscript
