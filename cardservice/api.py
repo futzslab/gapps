@@ -37,7 +37,11 @@ class Action:
     function_name: str = field(metadata=config(field_name="function"),
                                default=None)
     load_indicator: LoadIndicator = None
-    parameters: dict = None
+    parameters: dict = field(
+        metadata=config(
+            encoder=lambda x: [{"key": k, "value": v} for k, v in x.items()],
+            decoder=lambda x: {item["key"]: item["value"] for item in x}),
+        default=None)
 
 
 @appscript
@@ -214,9 +218,10 @@ class CardAction:
 @dataclass
 class CardHeader:
     image_alt_text: str = ''
-    image_style: ImageStyle = field(metadata=config(encoder=lambda x: x.value,
-                                                    decoder=ImageStyle),
-                                    default=ImageStyle.CIRCLE)
+    image_style: ImageStyle = field(
+        metadata=config(field_name="imageType", encoder=lambda x: x.value,
+                        decoder=ImageStyle),
+        default=ImageStyle.CIRCLE)
     image_url: str = ''
     subtitle: str = ''
     title: str = ''
@@ -237,10 +242,11 @@ class TextButton:
             decoder=lambda x: floats2hex([x.values()]) if x else None),
         default=None)
     compose_action: tuple[Action, ComposedEmailType] = None
-    disabled: bool = False
+    disabled: bool = None
     on_click_action: Action = field(metadata=config(field_name="onClick"),
                                     default=None)
-    on_click_open_link_action: Action = None
+    on_click_open_link_action: Action = field(
+        metadata=config(field_name="openDynamicLinkAction"), default=None)
     open_link: OpenLink = None
     text_button_style: TextButtonStyle = field(
         metadata=config(encoder=lambda x: x.value, decoder=TextButtonStyle,

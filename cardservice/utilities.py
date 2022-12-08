@@ -46,11 +46,13 @@ def update_actions(_dict):
     """
     for key, value in list(_dict.items()):
         if key in ['onClick']:
-            if not isinstance(value['parameters'], list):
-                value['parameters'] = [value['parameters']]
             _dict[key] = {'action': value}
+        if key in ['openLink', 'openDynamicLinkAction']:
+            d_temp = _dict.get('onClick', {})
+            d_temp.update({key: value})
+            _dict['onClick'] = d_temp
+            del _dict[key]
         elif key == 'selection_item':
-            # import ipdb; ipdb.set_trace()
             del _dict[key]
             _dict["items"] = [{'text': text, 'value': val, 'selected': sel}
                               for text, val, sel in value]
