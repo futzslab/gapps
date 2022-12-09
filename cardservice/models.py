@@ -104,7 +104,7 @@ class ConferenceData(BaseModel):
 
 
 class CalendarEvent(BaseModel):
-    id: str = None
+    id: str = None   # the event id
     recurringEventId: str = None
     calendarId: str = None
     organizer: Organizer = None

@@ -4,10 +4,12 @@ import pytz
 from urllib.parse import quote
 
 import cardservice as CardService
-from cardservice import models
+from cardservice import models, utilities as ut
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+import googleapiclient.discovery
+import google.oauth2.credentials
 
 
 app = FastAPI(title="Cats example")
@@ -158,3 +160,186 @@ def create_cat_card(text, is_homepage=False):
         card.setPeekCardHeader(peekHeader)
 
     return card.build()
+
+
+@app.post('/on_gmail_message', response_class=JSONResponse)
+def on_gmail_message(gevent: models.GEvent):
+    """Callback for rendering the card for a specific Gmail message.
+
+    Parameters
+    ----------
+    gevent: models.GEvent
+        e The event object. See the following link:
+        https://developers.google.com/gmail/add-ons/concepts/actions#action_event_objects
+
+    Returns
+    -------
+    response: CardService.Card
+        The card to show to the user.
+
+    """
+    # Get the ID of the message the user has open.
+    messageId = gevent.gmail.messageId
+
+    # Get an access token scoped to the current message and use it for GmailApp
+    # calls.
+    access_token = gevent.authorizationEventObject.userOAuthToken
+    cred = google.oauth2.credentials.Credentials(access_token)
+    service = googleapiclient.discovery.build('gmail', 'v1', credentials=cred)
+
+    # Get current message. We do not use it, this is just for demo.
+    message = service.users().messages().get(userId='me',
+                                             id=messageId).execute()
+
+    # Get current message Thread
+    thread = service.users().threads().get(userId='me',
+                                           id=gevent.gmail.threadId).execute()
+    # print(f"NB Threads: {len(thread['messages'])}")
+
+    # Get the subject of the email.
+    subject = ''
+    for t in thread['messages'][0]['payload']['headers']:
+        if t.get('name', '') == 'Subject':
+            subject = t.get('value')
+
+    # If neccessary, truncate the subject to fit in the image.
+    subject = truncate(subject)
+
+    return create_cat_card(subject)
+
+
+@app.post('/on_gmail_compose', response_class=JSONResponse)
+def on_gmail_compose(gevent: models.GEvent):
+    """Callback for rendering the card for the compose action dialog.
+
+    Parameters
+    ----------
+    gevent: models.GEvent
+        e The event object. See the following link:
+        https://developers.google.com/gmail/add-ons/concepts/actions#action_event_objects
+
+    Returns
+    -------
+    response: CardService.Card
+        The card to show to the user.
+
+    """
+    header = CardService.newCardHeader()  \
+        .setTitle('Insert cat')  \
+        .setSubtitle('Add a custom cat image to your email message.')
+
+    # Create text input for entering the cat's message.
+    text_input = CardService.newTextInput()  \
+        .setFieldName('text')  \
+        .setTitle('Caption')  \
+        .setHint('What do you want the cat to say?')
+
+    # Create a button that inserts the cat image when pressed.
+    action = CardService.newAction()  \
+        .setFunctionName('https://gwa.momentz.fr/on_gmail_insert_cat')
+
+    button = CardService.newTextButton()  \
+        .setText('Insert cat')  \
+        .setOnClickAction(action)  \
+        .setTextButtonStyle(CardService.TextButtonStyle.FILLED)
+
+    buttonSet = CardService.newButtonSet().addButton(button)
+
+    # Assemble the widgets and return the card.
+    section = CardService.newCardSection()  \
+        .addWidget(text_input)  \
+        .addWidget(buttonSet)
+
+    card = CardService.newCardBuilder()  \
+        .setHeader(header)  \
+        .addSection(section)
+
+    return card.build()
+
+
+@app.post('/on_gmail_insert_cat', response_class=JSONResponse)
+def on_gmail_insert_cat(gevent: models.GEvent):
+    """Callback for inserting a cat into the Gmail draft.
+
+    Parameters
+    ----------
+    gevent: models.GEvent
+        e The event object. See the following link:
+        https://developers.google.com/gmail/add-ons/concepts/actions#action_event_objects
+
+    Returns
+    -------
+    response: CardService.UpdateDraftActionResponse
+        The draft update response.
+
+    """
+    # Get the text that was entered by the user.
+    form_inputs = gevent.commonEventObject.formInputs
+    text = ut.get_form_value(form_inputs, 'text')
+    text = text[0] if len(text) else ''
+
+    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
+    # parameter to act as a cache buster.
+    now = datetime.now()
+    imageUrl = 'https://cataas.com/cat'
+    if text:
+        # Replace forward slashes in the text, as they break the CataaS API.
+        caption = text.replace('/', ' ')
+        # encodeURIComponent
+        caption = quote(caption, safe="!~*'()")
+        imageUrl += f'/says/{caption}?time={now.timestamp()}'
+
+    imageHtmlContent =   \
+        f'<img style="display: block max-height: 300px" src="{imageUrl}"/>'
+
+    draft_action = CardService.newUpdateDraftBodyAction()  \
+        .addUpdateContent(imageHtmlContent,
+                          CardService.ContentType.MUTABLE_HTML)  \
+        .setUpdateType(CardService.UpdateDraftBodyType.IN_PLACE_INSERT)
+
+    response = CardService.newUpdateDraftActionResponseBuilder()  \
+        .setUpdateDraftBodyAction(draft_action)  \
+        .build()
+
+    return response
+
+
+@app.post('/on_calendar_event_open', response_class=JSONResponse)
+def on_calendar_event_open(gevent: models.GEvent):
+    """Callback for rendering the card for a specific Calendar event.
+
+    Parameters
+    ----------
+    gevent: models.GEvent
+        e The event object. See the following link:
+        https://developers.google.com/gmail/add-ons/concepts/actions#action_event_objects
+
+    Returns
+    -------
+    response: CardService.Card
+        The card to show to the user.
+
+    """
+    # Get the ID of the Calendar and the event
+    calendar_id = gevent.calendar.calendarId
+    event_id = gevent.calendar.id
+
+    # Get an access token scoped to the current calendar
+    access_token = gevent.authorizationEventObject.userOAuthToken
+    cred = google.oauth2.credentials.Credentials(access_token)
+    service = googleapiclient.discovery.build('calendar', 'v3',
+                                              credentials=cred)
+
+    # The event metadata doesn't include the event's title, so using the
+    # calendar.readonly scope and fetching the event by it's ID.
+    event = service.events().get(calendarId=calendar_id,
+                                 eventId=event_id).execute()
+
+    if not event:
+        # This is a new event still being created.
+        return create_cat_card('A new event! Am I invited?')
+
+    title = event.get('summary', 'A new event! Should I go?')
+    # If necessary, truncate the title to fit in the image.
+    title = truncate(title)
+    return create_cat_card(title)
