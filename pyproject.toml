@@ -3,13 +3,14 @@ requires = ["flit-core >= 3.4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name =  "cardservice"
+name =  "g-apps"
 version = "0.1.0"
-description = "python interface of the google card service"
+description = "python interface of the google apps service"
 readme = "README.md"
 requires-python = ">=3.8"
 license.file = "LICENSE"
-keywords = ["appscript", "cardservice", "google workspace add-ons"]
+keywords = ["appscript", "cardservice", "google workspace add-ons",
+            "docs", "sheet", "calendar", "gmail", "forms", "slide", "drive"]
 authors = [
     {name = "Serge Koudoro", email = "skab12@gmail.com"},
 ]
@@ -35,6 +36,7 @@ dependencies = [
 demo = [
     "fastapi",
     "uvicorn",
+    "google-api-python-client>=2.68.0",
 ]
 
 docs = [
