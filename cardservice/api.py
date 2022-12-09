@@ -39,7 +39,7 @@ class Action:
     load_indicator: LoadIndicator = None
     parameters: dict = field(
         metadata=config(
-            encoder=lambda x: [{"key": k, "value": v} for k, v in x.items()],
+            encoder=lambda x: [{"key": k, "value": v} for k, v in x.items()] if x else [{}],
             decoder=lambda x: {item["key"]: item["value"] for item in x}),
         default=None)
 
@@ -693,9 +693,28 @@ class UpdateDraftBccRecipientsAction:
 @appscript
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
+class InsertContent:
+    content: str = None
+    content_type: ContentType = field(
+        metadata=config(encoder=lambda x: x.value,
+                        decoder=ContentType),
+        default=ContentType.UNSPECIFIED_CONTENT_TYPE)
+
+
+@appscript
+@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass
 class UpdateDraftBodyAction:
-    update_content: list[str, ContentType] = None
-    update_type: UpdateDraftBodyType = None
+    update_content: list[InsertContent] = field(
+        metadata=config(field_name='insertContents',
+                        encoder=lambda x: [{"content": c, "contentType": t.value}
+                                           for c, t in x] if x else None),
+        default=None)
+    update_type: UpdateDraftBodyType = field(
+        metadata=config(field_name='type',
+                        encoder=lambda x: x.value,
+                        decoder=UpdateDraftBodyType),
+        default=UpdateDraftBodyType.UNSPECIFIED_ACTION_TYPE)
 
 
 @appscript
@@ -723,12 +742,24 @@ class UpdateDraftToRecipientsAction:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class UpdateDraftActionResponseBuilder:
-    update_draft_bcc_recipients_action: UpdateDraftBccRecipientsAction = None
-    update_draft_body_action: UpdateDraftBodyAction = None
-    update_draft_cc_recipients_action: UpdateDraftCcRecipientsAction = None
-    update_draft_subject_action: UpdateDraftSubjectAction = None
-    update_draft_to_recipients_action: UpdateDraftToRecipientsAction = None
+    update_draft_bcc_recipients_action: UpdateDraftBccRecipientsAction = field(
+        metadata=config(field_name="updateBccRecipients"), default=None)
+    update_draft_body_action: UpdateDraftBodyAction = field(
+        metadata=config(field_name="updateBody"), default=None)
+    update_draft_cc_recipients_action: UpdateDraftCcRecipientsAction = field(
+        metadata=config(field_name="updateCcRecipients"), default=None)
+    update_draft_subject_action: UpdateDraftSubjectAction = field(
+        metadata=config(field_name="updateSubject"), default=None)
+    update_draft_to_recipients_action: UpdateDraftToRecipientsAction = field(
+        metadata=config(field_name="updateToRecipients"), default=None)
 
     def build(self):
-        """Builds the current universal action response and validates it."""
-        return UpdateDraftActionResponse()
+        """Build the current universal action response and validates it."""
+        card = self.to_dict()
+        card = delete_none(card)
+        card = {'renderActions':
+                {"hostAppAction":
+                    {"gmailAction":
+                        {"updateDraftActionMarkup": card}}}}
+        print(card)
+        return card
