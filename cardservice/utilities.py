@@ -121,3 +121,13 @@ def floats2hex(rgb):
     return f'#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}'
 
 
+def get_form_value(form, key):
+    """Return Form value."""
+    if not isinstance(form, dict):
+        return None
+    if not isinstance(key, str):
+        return None
+
+    val = form.get(key, {}).get('stringInputs', {}).get('value', None)
+    return val
+
