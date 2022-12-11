@@ -75,7 +75,7 @@ Source = "https://github.com/skoudoro/cardservice"
 Tracker = "https://github.com/skoudoro/cardservice/issues"
 
 [tool.flit.module]
-name = "cardservice"
+name = "gapps"
 
 [tool.black]
 line-length = 90

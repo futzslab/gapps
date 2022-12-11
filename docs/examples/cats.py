@@ -3,8 +3,8 @@ from datetime import datetime
 import pytz
 from urllib.parse import quote
 
-import cardservice as CardService
-from cardservice import models, utilities as ut
+from gapps import CardService
+from gapps.cardservice import models, utilities as ut
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse

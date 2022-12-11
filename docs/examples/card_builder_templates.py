@@ -1,9 +1,9 @@
 """ To run this example: uvicorn card_builder_templates:app --reload --port 8080 """
 import random
 
-import cardservice as CardService
-from cardservice import models
-from cardservice.utilities import decode_email, decode_user
+from gapps import CardService
+from gapps.cardservice import models
+from gapps.cardservice.utilities import decode_email, decode_user
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
