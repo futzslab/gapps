@@ -296,13 +296,21 @@ class DriveItemsSelectedActionResponse:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DriveItemsSelectedActionResponseBuilder:
+    _item_id: str = field(metadata=config(exclude=lambda x: True),
+                          default='')
 
     def build(self):
         """Build the current action response and validates it."""
-        return DriveItemsSelectedActionResponse()
+        card = {'renderActions':
+                {"hostAppAction":
+                    {"driveAction":
+                        {"requestFileScope": {"itemId": self._item_id}}}}}
+        print(card)
+        return card
 
     def requestFileScope(self, itemId):
         """Request file scope."""
+        self._item_id = itemId
         return self
 
 
@@ -320,13 +328,21 @@ class EditorFileScopeActionResponse:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class EditorFileScopeActionResponseBuilder:
+    _item_id: str = field(metadata=config(exclude=lambda x: True),
+                          default='')
 
     def build(self):
         """Build the current action response and validates it."""
-        return EditorFileScopeActionResponse()
+        card = {'renderActions':
+                {"hostAppAction":
+                    {"editorAction":
+                        {"requestFileScopeForActiveDocument": {}}}}}
+        print(card)
+        return card
 
     def requestFileScopeForActiveDocument(self, itemId):
         """Request file scope."""
+        self._item_id = itemId
         return self
 
 
@@ -501,7 +517,12 @@ class ComposeActionResponseBuilder:
 
     def build(self):
         """Builds the current compose action response and validates it."""
-        return ComposeActionResponse()
+        card = {'renderActions':
+                {"hostAppAction":
+                    {"gmailAction":
+                        {"addonComposeUiActionMarkup": {"type": {}}}}}}
+        print(card)
+        return card
 
 
 @appscript
@@ -528,13 +549,23 @@ class CalendarEventActionResponse:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class CalendarEventActionResponseBuilder:
-    attachments: list[Attachment] = None
-    attendees: list[str] = None
-    conference_data: ConferenceData = None
+    attachments: list[Attachment] = field(
+        metadata=config(field_name="addAttachmentsActionMarkup"), default=None)
+    attendees: list[str] = field(
+        metadata=config(field_name="editAttendeesActionMarkup"), default=None)
+    conference_data: ConferenceData = field(
+        metadata=config(field_name="editConferenceDataActionMarkup"),
+        default=None)
 
     def build(self):
         """Builds the current action response and validates it."""
-        return CalendarEventActionResponse()
+        card = self.to_dict()
+        card = delete_none(card)
+        card = {'renderActions':
+                {"hostAppAction":
+                    {"calendarAction": card}}}
+        print(card)
+        return card
 
 
 @appscript
