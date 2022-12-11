@@ -45,7 +45,7 @@ def test_basic_cards():
     expected = {'action': {'navigations': [{'pushCard': {'sections': [{'widgets': [{'decoratedText': {'bottomLabel': 'Software engineer', 'startIcon': {'iconUrl': 'https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png'}, 'text': 'John Doe'}}, {'divider': {}}, {'decoratedText': {'bottomLabel': 'Product manager', 'startIcon': {'iconUrl': 'https://happyfacesparty.com/wp-content/uploads/2019/06/avataaars-Brittany.png'}, 'text': 'Jane Doe'}}, {'divider': {}}, {'decoratedText': {'bottomLabel': 'Vice president', 'startIcon': {'iconUrl': 'https://i2.wp.com/tunisaid.org/wp-content/uploads/2019/03/avataaars-2.png?ssl=1'}, 'text': 'Jamie Doe'}}], 'collapsible': False, 'header': 'List of users'}]}}]}}
 
     assert card == expected
-    print(card)
+    return card
 
 
 def build_users_list_card():
@@ -352,6 +352,16 @@ def test_footer():
         .addSection(cardSection1)  \
         .build()
 
+    return card
+
+# test_basic_cards()
 # build_user_card()
 # build_form_controls_card()
-test_footer()
+# test_footer()
+
+# card = test_basic_cards()
+# import ipdb; ipdb.set_trace()
+# navigation = CardService.newNavigation().updateCard(card)
+# te = CardService.newActionResponseBuilder().setNavigation(navigation)
+# import ipdb; ipdb.set_trace()
+# te.build()
