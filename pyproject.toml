@@ -1,10 +1,9 @@
 [build-system]
-requires = ["flit-core >= 3.4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=65.4", "setuptools_scm[toml]>=7.1"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name =  "g-apps"
-version = "0.1.0"
+name =  "gapps"
 description = "python interface of the google apps service"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -30,7 +29,13 @@ dependencies = [
     "dataclasses-json >= 0.5.7",
     "pydantic >= 1.9.0",
     "google-auth >= 2.12.0",
+    "requests",
 ]
+
+dynamic = ["version"]
+
+[tool.setuptools_scm]
+write_to = "gapps/_version.py"
 
 [project.optional-dependencies]
 demo = [

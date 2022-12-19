@@ -131,3 +131,5 @@ dmypy.json
 #other
 *.json
 .DS_STORE
+
+_version.py
