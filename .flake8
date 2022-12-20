@@ -1,0 +1,13 @@
+[flake8]
+ignore = N802, N806, W503
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    gapps/_version.py,
+    docs/source/conf.py,
+    docs/examples,
+    tests
+
+max-complexity = 10
