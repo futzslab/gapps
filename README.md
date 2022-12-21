@@ -14,6 +14,81 @@
 | Addons             |  App Script Styple | Pythonic Style |
 :-------------------------:|:-------------------------:|:-------------------------:|
 ![](https://developers.google.com/apps-script/add-ons/images/workspace-addons-cats.png)  |  ![](docs/source/_static/images/code_app_script_style.png?raw=true) | ![](docs/source/_static/images/code_python_style.png?raw=true) |
+| ```python
+   import os
+   os.path |  |  |
+
+
+<table>
+<tr>
+<td> Status </td> <td> Response </td>
+</tr>
+<tr>
+<td>
+
+```python
+
+def create_cat_card(text):
+    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
+    # parameter to act as a cache buster.
+    now = datetime.now()
+    caption = text.replace('/', ' ')
+    imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
+
+    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
+    action = CardService.Action(
+        function_name='on_change_cat',
+        parameters={'text': text, 'is_homepage': str(is_homepage)})
+    button = CardService.TextButton(
+        text='Change cat', action=action,
+        text_button_style=CardService.TextButtonStyle.FILLED)
+    button_set = CardService.ButtonSet(button=button)
+    section = CardService.CardSection(widget=[image, button_set])
+
+    card = CardService.CardBuilder(section=section)
+
+    return card.build()
+
+```
+</td>
+<td>
+
+```python
+
+def create_cat_card(text):
+    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
+    # parameter to act as a cache buster.
+    now = datetime.now()
+    caption = text.replace('/', ' ')
+    imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
+
+    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
+    action = CardService.Action(
+        function_name='on_change_cat',
+        parameters={'text': text, 'is_homepage': str(is_homepage)})
+    button = CardService.TextButton(
+        text='Change cat', action=action,
+        text_button_style=CardService.TextButtonStyle.FILLED)
+    button_set = CardService.ButtonSet(button=button)
+    section = CardService.CardSection(widget=[image, button_set])
+
+    card = CardService.CardBuilder(section=section)
+
+    return card.build()
+```
+
+</td>
+</tr>
+<tr>
+<td> 400 </td>
+<td>
+
+**Markdown** _here_. (Blank lines needed before and after!)
+
+</td>
+</tr>
+</table>
+
 
 ## Getting Started
 
