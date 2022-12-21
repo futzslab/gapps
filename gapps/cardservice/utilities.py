@@ -31,7 +31,7 @@ def delete_none(_dict):
 
 
 def update_actions(_dict):
-    """Delete None values recursively from all of the dictionaries
+    """Update missing keys in a action dictionary.
 
     Parameters
     ----------
@@ -120,14 +120,14 @@ def hex2floats(h):
     rgb: tuple(float, float, float)
 
     """
-    if not h:
+    if not h or not isinstance(h, str) or not h.startswith('#'):
         return None
     return tuple(int(h[i:i + 2], 16) / 255. for i in (1, 3, 5))  # skip '#'
 
 
 def floats2hex(rgb):
     """Takes an RGB tuple or list and returns a hex RGB string."""
-    if not rgb:
+    if not rgb or not isinstance(rgb, (tuple, list)):
         return None
     return f'#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}'
 

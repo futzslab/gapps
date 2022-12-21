@@ -55,3 +55,9 @@ def test_appscript_decorator():
 
     te = Person(name='jon', age='4', friends=[]).addFriends(3).addFriends(4)
     assert te.to_dict() == {'friends': [3, 4], 'name': 'jon', 'age': '4'}
+
+
+def test_to_camel_case():
+    for word in ['set_my_function', 'set_My_Function', 'set_MY_FUNCTION',
+                 'set_my_FUNCTION']:
+        assert dec.to_camel_case(word) == 'setMyFunction'

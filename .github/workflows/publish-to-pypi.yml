@@ -31,7 +31,7 @@ jobs:
     - name: Install pypa/build and Build a binary wheel and a source tarball
       run: |
         python -m pip install build --user
-        cd && python -m build --sdist --wheel --outdir dist/ .
+        cd ${{ github.workspace }} && python -m build --sdist --wheel --outdir dist/ .
     - name: Publish distribution 📦 to PyPI
       if: startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
