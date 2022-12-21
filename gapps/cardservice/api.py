@@ -583,7 +583,7 @@ class GridItem:
 class Grid:
     item: list[GridItem] = None
     authorization_action: AuthorizationAction = None
-    border_style: BorderStyle = BorderStyle()
+    border_style: BorderStyle = field(default_factory=BorderStyle)
     compose_action: tuple[Action, ComposedEmailType] = None
     num_columns: int = 1
     on_click_action: Action = field(metadata=config(field_name="onClick"),
