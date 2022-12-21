@@ -179,7 +179,7 @@ def on_gmail_message(gevent: models.GEvent):
 
     """
     # Get the ID of the message the user has open.
-    messageId = gevent.gmail.messageId
+    # messageId = gevent.gmail.messageId
 
     # Get an access token scoped to the current message and use it for GmailApp
     # calls.
@@ -188,8 +188,8 @@ def on_gmail_message(gevent: models.GEvent):
     service = googleapiclient.discovery.build('gmail', 'v1', credentials=cred)
 
     # Get current message. We do not use it, this is just for demo.
-    message = service.users().messages().get(userId='me',
-                                             id=messageId).execute()
+    # message = service.users().messages().get(userId='me',
+    #                                          id=messageId).execute()
 
     # Get current message Thread
     thread = service.users().threads().get(userId='me',

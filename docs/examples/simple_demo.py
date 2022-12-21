@@ -26,7 +26,7 @@ async def homepage(gevent: models.GEvent):
 
 def build_cards(email):
     cardSection1DecoratedText1Icon1 = CardService.newIconImage()  \
-        .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')
+        .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')  # noqa: E501
     cardSection1DecoratedText1 = CardService.newDecoratedText()  \
         .setText('John Doe')  \
         .setBottomLabel(email)  \

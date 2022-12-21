@@ -75,7 +75,7 @@ author = 'cardservice'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-import cardservice
+import cardservice  # noqa: E402
 # The short X.Y version.
 version = cardservice.__version__
 # The full version, including alpha/beta/rc tags.
@@ -106,7 +106,7 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-import sphinx_rtd_theme
+import sphinx_rtd_theme  # noqa: E402
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -188,9 +188,6 @@ texinfo_documents = [
      author, 'cardservice', 'Python Wrapper for cardservice API',
      'Miscellaneous'),
 ]
-
-
-
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {

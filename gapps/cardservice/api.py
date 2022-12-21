@@ -15,15 +15,6 @@ from .utilities import delete_none, update_actions, hex2floats, floats2hex
 @appscript
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
-class Person:
-    friends: list
-    name: str
-    age: int
-
-
-@appscript
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
 class SelectionItem:
     text: str = ''
     value: str = ''
@@ -39,7 +30,8 @@ class Action:
     load_indicator: LoadIndicator = None
     parameters: dict = field(
         metadata=config(
-            encoder=lambda x: [{"key": k, "value": v} for k, v in x.items()] if x else [{}],
+            encoder=lambda x: [{"key": k, "value": v}
+                               for k, v in x.items()] if x else [{}],
             decoder=lambda x: {item["key"]: item["value"] for item in x}),
         default=None)
 
@@ -120,7 +112,7 @@ class Notification:
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class ActionResponseBuilder:
-    navigation:	Navigation = field(metadata=config(field_name="navigations"),
+    navigation: Navigation = field(metadata=config(field_name="navigations"),
                                    default=None)
     notification: Notification = None
     open_link: OpenLink = None
@@ -737,9 +729,10 @@ class InsertContent:
 @dataclass
 class UpdateDraftBodyAction:
     update_content: list[InsertContent] = field(
-        metadata=config(field_name='insertContents',
-                        encoder=lambda x: [{"content": c, "contentType": t.value}
-                                           for c, t in x] if x else None),
+        metadata=config(
+            field_name='insertContents',
+            encoder=lambda x: [{"content": c, "contentType": t.value}
+                               for c, t in x] if x else None),
         default=None)
     update_type: UpdateDraftBodyType = field(
         metadata=config(field_name='type',

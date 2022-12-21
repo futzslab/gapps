@@ -1,7 +1,10 @@
-import cardservice as CardService
+from gapps import CardService
+from gapps.cardservice import decorators as dec
+from dataclasses_json import LetterCase, dataclass_json
+from dataclasses import dataclass
 
 
-def test_basic_cards():
+def create_basic_cards():
     cardSection1DecoratedText1Icon1 = CardService.newIconImage()  \
         .setIcon(CardService.Icon.FLIGHT_ARRIVAL)  \
         .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')
@@ -37,10 +40,18 @@ def test_basic_cards():
         .addSection(cardSection1)  \
         .build()
 
-    print(card)
+    return card
 
 
 def test_appscript_decorator():
-    te = api.Person(name='jon', age='4', friends=[]).addFriends(3).addFriends(4)
-    te.to_dict()
-    assert {'friends': [3, 4], 'name': 'jon', 'age': '4'}
+
+    @dec.appscript
+    @dataclass_json(letter_case=LetterCase.CAMEL)
+    @dataclass
+    class Person:
+        friends: list
+        name: str
+        age: int
+
+    te = Person(name='jon', age='4', friends=[]).addFriends(3).addFriends(4)
+    assert te.to_dict() == {'friends': [3, 4], 'name': 'jon', 'age': '4'}

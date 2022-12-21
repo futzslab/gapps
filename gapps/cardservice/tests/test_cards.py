@@ -1,7 +1,7 @@
-import cardservice as CardService
+from gapps import CardService
 
 
-def test_basic_cards():
+def build_basic_cards():
     cardSection1DecoratedText1Icon1 = CardService.newIconImage()  \
         .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')
 
@@ -352,7 +352,8 @@ def test_footer():
         .addSection(cardSection1)  \
         .build()
 
-    return card
+    print(card)
+    assert card == {'action': {'navigations': [{'pushCard': {'sections': [{'widgets': [{'decoratedText': {'bottomLabel': 'Software Developer', 'startIcon': {'iconUrl': 'https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png'}, 'text': 'John Doe'}}], 'collapsible': False, 'header': 'My Profile'}], 'fixedFooter': {'primaryButton': {'onClick': {'action': {'function': 'https://gwa.momentz.fr/', 'parameters': [{}]}, 'openDynamicLinkAction': {'function': 'ttps://gwa.momentz.fr/2', 'parameters': [{}]}, 'openLink': {'url': 'https://example.com'}}, 'text': 'Click me'}}}}]}}
 
 # test_basic_cards()
 # build_user_card()

@@ -108,10 +108,21 @@ def decode_email(token: str):
 
 
 def hex2floats(h):
-    """Take a hex rgb string (e.g. #ffffff) and returns an RGB tuple (float, float, float)."""
+    """Take a hex rgb string and returns an RGB tuple.
+
+    Parameters
+    ----------
+    h: str
+        hex rgb string (e.g. #ffffff)
+
+    Returns
+    -------
+    rgb: tuple(float, float, float)
+
+    """
     if not h:
         return None
-    return tuple(int(h[i:i + 2], 16) / 255. for i in (1, 3, 5)) # skip '#'
+    return tuple(int(h[i:i + 2], 16) / 255. for i in (1, 3, 5))  # skip '#'
 
 
 def floats2hex(rgb):
@@ -130,4 +141,3 @@ def get_form_value(form, key):
 
     val = form.get(key, {}).get('stringInputs', {}).get('value', None)
     return val
-

@@ -1,4 +1,8 @@
-""" To run this example: uvicorn card_builder_templates:app --reload --port 8080 """
+""" To run this example:
+
+uvicorn card_builder_templates:app --reload --port 8080
+
+"""
 import random
 
 from gapps import CardService
@@ -34,7 +38,7 @@ async def homepage(gevent: models.GEvent):
 
 def build_users_list_card():
     cardSection1DecoratedText1Icon1 = CardService.newIconImage()  \
-        .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')
+        .setIconUrl('https://koolinus.files.wordpress.com/2019/03/avataaars-e28093-koolinus-1-12mar2019.png')  # noqa: E501
 
     cardSection1DecoratedText1 = CardService.newDecoratedText()  \
         .setText('John Doe')  \
@@ -44,7 +48,7 @@ def build_users_list_card():
     cardSection1Divider1 = CardService.newDivider()
 
     cardSection1DecoratedText2Icon1 = CardService.newIconImage()  \
-        .setIconUrl('https://happyfacesparty.com/wp-content/uploads/2019/06/avataaars-Brittany.png')
+        .setIconUrl('https://happyfacesparty.com/wp-content/uploads/2019/06/avataaars-Brittany.png')  # noqa: E501
 
     cardSection1DecoratedText2 = CardService.newDecoratedText()  \
         .setText('Jane Doe')  \
@@ -54,7 +58,7 @@ def build_users_list_card():
     cardSection1Divider2 = CardService.newDivider()
 
     cardSection1DecoratedText3Icon1 = CardService.newIconImage()  \
-        .setIconUrl('https://i2.wp.com/tunisaid.org/wp-content/uploads/2019/03/avataaars-2.png?ssl=1')
+        .setIconUrl('https://i2.wp.com/tunisaid.org/wp-content/uploads/2019/03/avataaars-2.png?ssl=1')  # noqa: E501
 
     cardSection1DecoratedText3 = CardService.newDecoratedText()  \
         .setText('Jamie Doe')  \
@@ -113,7 +117,7 @@ def build_multi_section_card():
 def build_user_card():
     cardSection1DecoratedText1Icon1 = CardService.newIconImage()  \
         .setIconUrl(
-            'https://fonts.gstatic.com/s/i/googlematerialicons/email/v6/grey600-24dp/1x/gm_email_grey600_24dp.png'
+            'https://fonts.gstatic.com/s/i/googlematerialicons/email/v6/grey600-24dp/1x/gm_email_grey600_24dp.png'  # noqa: E501
         )
 
     cardSection1DecoratedText1 = CardService.newDecoratedText()  \
@@ -123,7 +127,7 @@ def build_user_card():
 
     cardSection1DecoratedText2Icon1 = CardService.newIconImage()  \
         .setIconUrl(
-            'https://fonts.gstatic.com/s/i/googlematerialicons/chat/v6/grey600-24dp/1x/gm_chat_grey600_24dp.png'
+            'https://fonts.gstatic.com/s/i/googlematerialicons/chat/v6/grey600-24dp/1x/gm_chat_grey600_24dp.png'  # noqa: E501
         )
 
     cardSection1DecoratedText2 = CardService.newDecoratedText()  \
@@ -133,7 +137,7 @@ def build_user_card():
 
     cardSection1DecoratedText3Icon1 = CardService.newIconImage()  \
         .setIconUrl(
-            'https://fonts.gstatic.com/s/i/googlematerialicons/call/v6/grey600-24dp/1x/gm_call_grey600_24dp.png'
+            'https://fonts.gstatic.com/s/i/googlematerialicons/call/v6/grey600-24dp/1x/gm_call_grey600_24dp.png'  # noqa: E501
         )
 
     cardSection1DecoratedText3 = CardService.newDecoratedText()  \
@@ -147,14 +151,14 @@ def build_user_card():
     cardSection1DecoratedText5 = CardService.newDecoratedText()  \
         .setTopLabel('19:23')  \
         .setText(
-            'Greece planning/vacation recommendations — We stayed in Santorini for the first day'
+            'Greece planning/vacation recommendations — We stayed in Santorini for the first day'  # noqa: E501
         )  \
         .setWrapText(True)
 
     cardSection1DecoratedText6 = CardService.newDecoratedText()  \
         .setTopLabel('Nov 8')  \
         .setText(
-            'Chocolate Factory Tour  — Congratulations on finding the golden ticket! The tour begins.'
+            'Chocolate Factory Tour  — Congratulations on finding the golden ticket! The tour begins.'  # noqa: E501
         )  \
         .setWrapText(True)
 
@@ -224,7 +228,7 @@ def build_email_card():
     cardSection1DecoratedText2 = CardService.newDecoratedText()  \
         .setTopLabel('Nov 8')  \
         .setText(
-            'Chocolate Factory Tour  — Congratulations on finding the golden ticket! The tour begins.'
+            'Chocolate Factory Tour  — Congratulations on finding the golden ticket! The tour begins.'  # noqa: E501
         )  \
         .setWrapText(True)
 
@@ -233,7 +237,7 @@ def build_email_card():
 
     cardSection1DecoratedText4Icon1 = CardService.newIconImage()  \
         .setIconUrl(
-            'https://fonts.gstatic.com/s/i/googlematerialicons/location_on/v6/grey600-36dp/1x/gm_location_on_grey600_36dp.png'
+            'https://fonts.gstatic.com/s/i/googlematerialicons/location_on/v6/grey600-36dp/1x/gm_location_on_grey600_36dp.png'  # noqa: E501
         )
 
     cardSection1DecoratedText4 = CardService.newDecoratedText()  \

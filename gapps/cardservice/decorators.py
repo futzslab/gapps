@@ -28,17 +28,20 @@ def appscript(*args, **kwargs):
 
             def create_add_function(cls_key):
                 def _run_add(self, *val):
-                    current = getattr(self, cls_key)
-                    current = current or []
-                    current.append(*val) if len(val) == 1 else current.append(val)
-                    setattr(self, cls_key, current)
+                    attr = getattr(self, cls_key)
+                    attr = attr or []
+                    attr.append(*val) if len(val) == 1 else attr.append(val)
+                    setattr(self, cls_key, attr)
                     return self
                 return _run_add
 
             if t_value is list:
-                setattr(cls, to_camel_case(f"add_{key}"), create_add_function(key))
-            elif isinstance(t_value, types.GenericAlias) and t_value.__origin__ is list:
-                setattr(cls, to_camel_case(f"add_{key}"), create_add_function(key))
+                setattr(cls, to_camel_case(f"add_{key}"),
+                        create_add_function(key))
+            elif isinstance(t_value,
+                            types.GenericAlias) and t_value.__origin__ is list:
+                setattr(cls, to_camel_case(f"add_{key}"),
+                        create_add_function(key))
             else:
                 setattr(cls, to_camel_case(f"set_{key}"), create_function(key))
         return cls
