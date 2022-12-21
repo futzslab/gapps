@@ -13,7 +13,7 @@
 
 | Addons             |  App Script Styple | Pythonic Style |
 :-------------------------:|:-------------------------:|:-------------------------:|
-![](https://developers.google.com/apps-script/add-ons/images/workspace-addons-cats.png)  |  ![]() | ![]() |
+![](https://developers.google.com/apps-script/add-ons/images/workspace-addons-cats.png)  |  ![](docs/source/_static/images/code_app_script_style.png?raw=true) | ![](docs/source/_static/images/code_python_style.png?raw=true) |
 
 ## Getting Started
 
