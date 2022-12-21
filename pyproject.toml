@@ -65,6 +65,7 @@ test = [
     "pre-commit==2.17.0",
     "pylint==2.12.2",
     "pytest==7.1.0",
+    "pip-conflict-checker>=0.6.0",
 ]
 
 typing = [
@@ -75,12 +76,10 @@ typing = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/skoudoro/cardservice/tree/main#readme"
-Source = "https://github.com/skoudoro/cardservice"
-Tracker = "https://github.com/skoudoro/cardservice/issues"
+Documentation = "https://github.com/skoudoro/gapps/tree/main#readme"
+Source = "https://github.com/skoudoro/gapps"
+Tracker = "https://github.com/skoudoro/gapps/issues"
 
-[tool.flit.module]
-name = "gapps"
 
 [tool.black]
 line-length = 90
@@ -91,4 +90,3 @@ branch = true
 
 [tool.coverage.report]
 fail_under = 100
-
