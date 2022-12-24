@@ -450,7 +450,8 @@ class CardSection:
     widget: list = field(metadata=config(field_name="widgets"), default=None)
     collapsible: bool = False
     header: str = ""
-    num_uncollapsible_widgets: int = None
+    num_uncollapsible_widgets: int = field(
+        metadata=config(field_name="uncollapsibleWidgetsCount"), default=None)
 
 
 @appscript

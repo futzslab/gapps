@@ -4,7 +4,7 @@ from google.oauth2.id_token import verify_oauth2_token
 
 
 def delete_none(_dict):
-    """Delete None values recursively from all of the dictionaries
+    """Delete None values recursively from all of the dictionaries.
 
     Parameters
     ----------
