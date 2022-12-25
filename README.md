@@ -3,7 +3,7 @@
 <img height="100px" src="https://www.gstatic.com/images/icons/material/system/1x/pets_black_48dp.png">
 </p>
 
-<p align="center"> Your library to help you to <br><b>Build Google Workspace add-ons in Python  🐍 !!!</b>
+<h5 align="center"> Your opensource library for helping you to <br><b>Build Google Workspace add-ons in Python  🐍 !!!</b></h5>
 
 <p align="center">
 ***
@@ -14,9 +14,7 @@
 | Addons             |  App Script Styple | Pythonic Style |
 :-------------------------:|:-------------------------:|:-------------------------:|
 ![](https://developers.google.com/apps-script/add-ons/images/workspace-addons-cats.png)  |  ![](docs/source/_static/images/code_app_script_style.png?raw=true) | ![](docs/source/_static/images/code_python_style.png?raw=true) |
-| ```python
-   import os
-   os.path |  |  |
+
 
 
 <table>

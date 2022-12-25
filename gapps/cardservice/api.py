@@ -188,6 +188,10 @@ class Button:
 class ButtonSet:
     button: list[Button] = field(metadata=config(field_name="buttons"),
                                  default=None)
+    # horizontal_alignment: HorizontalAlignment = field(
+    #     metadata=config(encoder=lambda x: x.value,
+    #                     decoder=HorizontalAlignment),
+    #     default=HorizontalAlignment.START)
 
     def field_name(self):
         """Return and override classname."""
