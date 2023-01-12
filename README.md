@@ -1,125 +1,60 @@
-<h1 align="center">GAPPS</h1>
+
 <p align="center">
-<img height="100px" src="https://www.gstatic.com/images/icons/material/system/1x/pets_black_48dp.png">
+<img height="100px" src="docs/source/_static/images/gapps_logo_144.png">
 </p>
 
-<h5 align="center"> Your opensource library for helping you to <br><b>Build Google Workspace add-ons in Python  🐍 !!!</b></h5>
+<h5 align="center"> <b>Build Google Workspace add-ons in Python  🐍 !!!</b></h5>
 
 <p align="center">
 ***
 </p>
 
-[Google Workspace add-ons](https://developers.google.com/workspace/add-ons/how-tos/building-gsuite-addons) are the extensions that can be found in the side panel of most Google apps (Gmail, Google Drive, Sheets, Docs, Slides, etc), unlike the more complex [Editor add-ons](https://developers.google.com/workspace/add-ons/how-tos/building-editor-addons) that can be found in the "Add-ons" tab of Google Sheets, Docs and Slides.
+<div align="center">
 
-| Addons             |  App Script Styple | Pythonic Style |
-:-------------------------:|:-------------------------:|:-------------------------:|
-![](https://developers.google.com/apps-script/add-ons/images/workspace-addons-cats.png)  |  ![](docs/source/_static/images/code_app_script_style.png?raw=true) | ![](docs/source/_static/images/code_python_style.png?raw=true) |
+[![Build Status](https://github.com/skoudoro/gapps/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/skoudoro/gapps/actions?query=workflow%3ATest) [![Deployment](https://img.shields.io/pypi/v/gapps.svg?logo=python&logoColor=white)](https://pypi.org/project/gapps/) [![Code Quality](https://api.codacy.com/project/badge/Grade/9c17e95d29cd489ba86411db969a576e)](https://app.codacy.com/manual/skab12/gapps?utm_source=github.com&utm_medium=referral&utm_content=skoudoro/gapps&utm_campaign=Badge_Grade_Dashboard) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Contribution](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/skoudoro/gapps/blob/master/CONTRIBUTING.rst) [![PR](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/skoudoro/gapps/compare)
 
+</div>
 
-
-<table>
-<tr>
-<td> Status </td> <td> Response </td>
-</tr>
-<tr>
-<td>
-
-```python
-
-def create_cat_card(text):
-    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
-    # parameter to act as a cache buster.
-    now = datetime.now()
-    caption = text.replace('/', ' ')
-    imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
-
-    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
-    action = CardService.Action(
-        function_name='on_change_cat',
-        parameters={'text': text, 'is_homepage': str(is_homepage)})
-    button = CardService.TextButton(
-        text='Change cat', action=action,
-        text_button_style=CardService.TextButtonStyle.FILLED)
-    button_set = CardService.ButtonSet(button=button)
-    section = CardService.CardSection(widget=[image, button_set])
-
-    card = CardService.CardBuilder(section=section)
-
-    return card.build()
-
-```
-</td>
-<td>
-
-```python
-
-def create_cat_card(text):
-    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
-    # parameter to act as a cache buster.
-    now = datetime.now()
-    caption = text.replace('/', ' ')
-    imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
-
-    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
-    action = CardService.Action(
-        function_name='on_change_cat',
-        parameters={'text': text, 'is_homepage': str(is_homepage)})
-    button = CardService.TextButton(
-        text='Change cat', action=action,
-        text_button_style=CardService.TextButtonStyle.FILLED)
-    button_set = CardService.ButtonSet(button=button)
-    section = CardService.CardSection(widget=[image, button_set])
-
-    card = CardService.CardBuilder(section=section)
-
-    return card.build()
-```
-
-</td>
-</tr>
-<tr>
-<td> 400 </td>
-<td>
-
-**Markdown** _here_. (Blank lines needed before and after!)
-
-</td>
-</tr>
-</table>
-
-
-## Getting Started
-
-<table align="center">
-    <tr>
-      <td align="center"><b>Deployment</b></td>
-      <td align="center"><a href="https://pypi.org/project/gapps/"><img src="https://img.shields.io/pypi/v/gapps.svg?logo=python&logoColor=white" alt="pypi gapps"></a></td>
-    </tr>
-    <tr>
-      <td align="center"><b>Build Status</b></td>
-      <td align="center"><a href="https://github.com/skoudoro/gapps/actions?query=workflow%3ATest"><img src="https://github.com/skoudoro/gapps/actions/workflows/test.yml/badge.svg"></a></td>
-    </tr>
-    <tr>
-      <td align="center"><b>Metrics</b></td>
-      <td align="center">
-        <a href="https://app.codacy.com/manual/skab12/gapps?utm_source=github.com&utm_medium=referral&utm_content=skoudoro/gapps&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/9c17e95d29cd489ba86411db969a576e" alt="codacy gapps python"></a>
 <!-- <a href="https://codecov.io/gh/skoudoro/gapps"><img src="https://codecov.io/gh/skoudoro/gapps/branch/master/graph/badge.svg" alt="codecov gapps python"></a>  -->
-      </td>
-    </tr>
-    <tr>
-      <td align="center"><b>License</b></td>
-      <td align="center"><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT"></a></td>
-    </tr>
-    <tr>
-      <td align="center"><b>Community</b></td>
-      <td align="center"> <a href="https://github.com/skoudoro/gapps/blob/master/CONTRIBUTING.rst"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a> <a href="https://github.com/skoudoro/gapps/blob/master/CONTRIBUTING.rst"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a></td>
-    </tr>
-</table>
 <!-- <a href="https://github.com/skoudoro/gapps/graphs/contributors"><img src="https://img.shields.io/github/contributors/skoudoro/gapps.svg"></a> -->
 
+---
+
+## 📝 Table of Contents
+<div style="background-color: #EBE8FC">
+
+- [❗ What is GAPPS?](#what-is-gapps)
+- [⚡ Key Features](#key-features)
+- [🏁 Getting Started](#getting-started)
+  - [🚜 Installation](#installation)
+  - [⚙️ CardService: Choose your coding style!](cardservice-choose-your-coding-style)
+  - [⛏️ Card Builder](#card-builder)
+- [🚀 Demos](#demos)
+- [💬 Tutorials](#tutorials)
+- [📄 Methods Reference](#methods-reference)
+- [⚠️ Notes](#notes)
+- [✅ Tests](#tests)
+- [✨ Contribute](#contribute)
+- [🎓 License](#license)
+
+</div>
 
 
-### Installation
+## ❗ What is GAPPS?
+
+**GAPPS**  is a library that allows developers to easily and flexibly build [add-ons for Google Workspace](https://developers.google.com/workspace/add-ons/how-tos/building-gsuite-addons) using Python 🐍. With **GAPPS**, you can create powerful tools and integrations for Gmail, Google Chat, Calendar, Sheets, Drive, Docs and other Google Workspace apps, that can streamline your workflow and automate common tasks.
+
+
+## ⚡ Key Features
+
+- A simple and easy-to-use API for building Google Workspace add-ons.
+- Flexible interface that can be used for a variety of use cases.
+- Built-in support for Gmail, Google Calendar, Google Drive and other Google Workspace apps.
+- Well-documented, well-maintained codebase and easy to contribute.
+
+## 🏁 Getting Started
+
+### 🚜 Installation
 
 This client is hosted at [PyPi](https://pypi.org/project/gapps/) under the name **gapps**, to install it, simply run
 
@@ -134,19 +69,89 @@ git clone https://github.com/skoudoro/gapps.git
 pip install -e .
 ````
 
-## Method reference
+### ⚙️ CardService: Choose your coding style!
 
-For the complete reference, visit the [official Google Workspace Add Ons API reference](https://developers.google.com/apps-script/reference/card-service).
+GAPPS allows you to build extensions by following your favorite coding style
 
-## Notes
+<!--
+![](https://developers.google.com/apps-script/add-ons/images/workspace-addons-cats.png) -->
+#### Appscript Style
+
+```python
+
+def create_cat_card(text):
+    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
+    # parameter to act as a cache buster.
+    now = datetime.now()
+    caption = text.replace('/', ' ')
+    imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
+
+    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
+    action = CardService.Action(
+        function_name='on_change_cat',
+        parameters={'text': text, 'is_homepage': str(is_homepage)})
+    button = CardService.TextButton(
+        text='Change cat', action=action,
+        text_button_style=CardService.TextButtonStyle.FILLED)
+    button_set = CardService.ButtonSet(button=button)
+    section = CardService.CardSection(widget=[image, button_set])
+
+    card = CardService.CardBuilder(section=section)
+
+    return card.build()
+
+```
+
+#### Pythonic Style
+
+```python
+
+def create_cat_card(text):
+    # Use the "Cat as a service" API to get the cat image. Add a "time" URL
+    # parameter to act as a cache buster.
+    now = datetime.now()
+    caption = text.replace('/', ' ')
+    imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
+
+    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
+    action = CardService.Action(
+        function_name='on_change_cat',
+        parameters={'text': text, 'is_homepage': str(is_homepage)})
+    button = CardService.TextButton(
+        text='Change cat', action=action,
+        text_button_style=CardService.TextButtonStyle.FILLED)
+    button_set = CardService.ButtonSet(button=button)
+    section = CardService.CardSection(widget=[image, button_set])
+
+    card = CardService.CardBuilder(section=section)
+
+    return card.build()
+```
+
+#### ⛏️ Card Builder
+
+The online [Card builder](https://gw-card-builder.web.app/) can help you prototype your app's interface.
+## 🚀 Demos
+
+Check out the [examples folder](docs/examples) for sample codes. It contains the following examples:
+
+- `cats.py`: Mirror of google Cats example. Compatible with Gmail, Google Calendar, Google Drive, Google Docs and Google sheets
+- `simple_demo.py`: minimalistic example to show how to build a basic card.
+- `card_builder.py`: This example show how to reproduce all the templates from the online [Card builder](https://gw-card-builder.web.app/). It can help you prototype your app's interface.
+
+## 💬 Tutorials
+
+Coming soon...
+## 📄 Methods reference
+
+**CardService:** For the complete reference, visit the [official Google Workspace Add Ons API reference](https://developers.google.com/apps-script/reference/card-service).
+
+## ⚠️ Notes
 
 We still need to handle some widgets/builders but 90% of them are working correctly
 
-we are currently updating the project to handle the new V2 released last summer 2022.
 
-<!-- ## Features -->
-
-## Tests
+## ✅ Tests
 
 * Step 1: Install pytest
 
@@ -160,7 +165,7 @@ we are currently updating the project to handle the new V2 released last summer 
   pytest -svv gapps
 ```
 
-## Contribute
+## ✨ Contribute
 
 We love contributions!
 
@@ -170,6 +175,6 @@ You've worked out a way to fix it – even better! Submit a [Pull Request](https
 
 Start with the [contributing guide](https://github.com/skoudoro/gapps/blob/master/CONTRIBUTING.rst)!
 
-## License
+## 🎓 License
 
 Project under MIT license, more information [here](https://github.com/skoudoro/gapps/blob/master/LICENSE)
