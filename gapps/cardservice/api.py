@@ -336,7 +336,7 @@ class EditorFileScopeActionResponseBuilder:
         print(card)
         return card
 
-    def requestFileScopeForActiveDocument(self, itemId):
+    def requestFileScopeForActiveDocument(self, itemId=''):
         """Request file scope."""
         self._item_id = itemId
         return self
