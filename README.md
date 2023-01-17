@@ -189,6 +189,12 @@ You've worked out a way to fix it – even better! Submit a [Pull Request](https
 
 Start with the [contributing guide](https://github.com/skoudoro/gapps/blob/master/CONTRIBUTING.rst)!
 
+## Do you like GAPPS?
+
+Show us with a star on github...
+
+![Star GAPPS](docs/source/_static/images/star.gif)
+
 ## 🎓 License
 
 Project under MIT license, more information [here](https://github.com/skoudoro/gapps/blob/master/LICENSE)
