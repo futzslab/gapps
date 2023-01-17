@@ -1,6 +1,6 @@
 
 <p align="center">
-<img height="100px" src="docs/source/_static/images/gapps_logo_144.png">
+<img height="100px" src="https://github.com/skoudoro/gapps/blob/main/docs/source/_static/images/gapps_logo_144.png?raw=true">
 </p>
 
 <h5 align="center"> <b>Build Google Workspace add-ons in Python  🐍 !!!</b></h5>
@@ -86,17 +86,31 @@ def create_cat_card(text):
     caption = text.replace('/', ' ')
     imageUrl = f'https://cataas.com/cat/says/{caption}?time={now.timestamp()}'
 
-    image = CardService.Image(image_url=imageUrl, alt_text='Meow')
-    action = CardService.Action(
-        function_name='on_change_cat',
-        parameters={'text': text, 'is_homepage': str(is_homepage)})
-    button = CardService.TextButton(
-        text='Change cat', action=action,
-        text_button_style=CardService.TextButtonStyle.FILLED)
-    button_set = CardService.ButtonSet(button=button)
-    section = CardService.CardSection(widget=[image, button_set])
+    image = CardService.newImage() \
+        .setImageUrl(imageUrl)  \
+        .setAltText('Meow')
 
-    card = CardService.CardBuilder(section=section)
+    # Create a button that changes the cat image when pressed.
+    # Note: Action parameter keys and values must be strings.
+    action = CardService.newAction()  \
+        .setFunctionName('on_change_cat') \
+        .setParameters({'text': text, 'is_homepage': str(is_homepage)})
+
+    button = CardService.newTextButton()  \
+        .setText('Change cat')  \
+        .setOnClickAction(action)  \
+        .setTextButtonStyle(CardService.TextButtonStyle.FILLED)
+
+    buttonSet = CardService.newButtonSet()  \
+        .addButton(button)
+
+    # Assemble the widgets and return the card.
+    section = CardService.newCardSection()  \
+        .addWidget(image)  \
+        .addWidget(buttonSet)
+
+    card = CardService.newCardBuilder()  \
+        .addSection(section)
 
     return card.build()
 
@@ -133,11 +147,11 @@ def create_cat_card(text):
 The online [Card builder](https://gw-card-builder.web.app/) can help you prototype your app's interface.
 ## 🚀 Demos
 
-Check out the [examples folder](docs/examples) for sample codes. It contains the following examples:
+Check out the [examples folder](https://github.com/skoudoro/gapps/tree/main/docs/examples) for sample codes. It contains the following examples:
 
-- `cats.py`: Mirror of google Cats example. Compatible with Gmail, Google Calendar, Google Drive, Google Docs and Google sheets
-- `simple_demo.py`: minimalistic example to show how to build a basic card.
-- `card_builder.py`: This example show how to reproduce all the templates from the online [Card builder](https://gw-card-builder.web.app/). It can help you prototype your app's interface.
+- [cats.py](https://github.com/skoudoro/gapps/blob/main/docs/examples/cats.py): Mirror of google Cats example. Compatible with Gmail, Google Calendar, Google Drive, Google Docs and Google sheets
+- [simple_demo.py](https://github.com/skoudoro/gapps/blob/main/docs/examples/simple_demo.py): minimalistic example to show how to build a basic card.
+- [card_builder.py](https://github.com/skoudoro/gapps/blob/main/docs/examples/card_builder_templates.py): This example show how to reproduce all the templates from the online [Card builder](https://gw-card-builder.web.app/). It can help you prototype your app's interface.
 
 ## 💬 Tutorials
 
