@@ -78,6 +78,7 @@ GAPPS allows you to build extensions by following your favorite coding style
 #### Appscript Style
 
 ```python
+from gapps import CardService
 
 def create_cat_card(text):
     # Use the "Cat as a service" API to get the cat image. Add a "time" URL
@@ -119,6 +120,7 @@ def create_cat_card(text):
 #### Pythonic Style
 
 ```python
+from gapps import CardService
 
 def create_cat_card(text):
     # Use the "Cat as a service" API to get the cat image. Add a "time" URL
