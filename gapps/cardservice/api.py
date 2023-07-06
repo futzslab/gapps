@@ -419,7 +419,7 @@ class ImageButton:
     alt_text: str = ''
     authorization_action: AuthorizationAction = None
     compose_action: tuple[Action, ComposedEmailType] = None
-    icon: Icon = Icon.NONE
+    icon: Icon = None  # Icon.NONE
     icon_url: str = ''
     on_click_action: Action = field(metadata=config(field_name="onClick"),
                                     default=None)
