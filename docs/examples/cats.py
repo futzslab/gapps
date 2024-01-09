@@ -22,12 +22,15 @@ async def root():
 
 @app.post("/homepage", response_class=JSONResponse)
 async def homepage(gevent: models.GEvent):
-    date = datetime.now(tz=pytz.timezone(gevent.commonEventObject.timeZone.id))
-    message = 'Good night'
-    if 12 > date.hour >= 6:
-        message = 'Good morning'
-    elif 18 > date.hour >= 12:
-        message = 'Good afternoon'
+    message = 'Hello'
+    if gevent.commonEventObject.timeZone:
+        date = datetime.now(tz=pytz.timezone(
+            gevent.commonEventObject.timeZone.id))
+        message = 'Good night'
+        if 12 > date.hour >= 6:
+            message = 'Good morning'
+        elif 18 > date.hour >= 12:
+            message = 'Good afternoon'
 
     message += ' ' + gevent.commonEventObject.hostApp
 
