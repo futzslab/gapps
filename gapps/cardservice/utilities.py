@@ -129,7 +129,9 @@ def floats2hex(rgb):
     """Takes an RGB tuple or list and returns a hex RGB string."""
     if not rgb or not isinstance(rgb, (tuple, list)):
         return None
-    return f'#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}'
+    str_hex = f'#{int(rgb[0] * 255):02x}{int(rgb[1] * 255):02x}'
+    str_hex += f'{int(rgb[2] * 255):02x}'
+    return str_hex
 
 
 def get_form_value(form, key):
