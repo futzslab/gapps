@@ -10,10 +10,10 @@ class TimeZone(BaseModel):
 
 
 class CommonEvent(BaseModel):
-    userLocale: str
+    userLocale: str = None
     hostApp: str
     platform: str
-    timeZone: TimeZone
+    timeZone: TimeZone = None
     parameters: dict = {}
     formInputs: dict = {}
 
