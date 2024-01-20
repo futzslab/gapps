@@ -51,7 +51,9 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: models.GEvent):
+async def on_change_cat(gevent: dict):
+    
+
     """Callback for the 'Change cat' button.
 
     Parameters
@@ -68,11 +70,13 @@ async def on_change_cat(gevent: models.GEvent):
     """
     # Get the text that was shown in the current cat image. This was passed as
     # a parameter on the Action set for the button.
-    text = gevent.commonEventObject.parameters['text']
+    text =  str(gevent["commonEventObject"]["parameters"]["text"])
+    #gevent.commonEventObject.parameters['text']
 
     # The isHomepage parameter is passed as a string, so convert to a Boolean.
-    is_homepage = gevent.commonEventObject.parameters['is_homepage'] == 'True'
-
+    is_homepage = gevent["commonEventObject"]["parameters"]["is_homepage"]
+   
+   
     # Create a new card with the same text.
     card = create_cat_card(text, is_homepage)
 
@@ -85,6 +89,7 @@ async def on_change_cat(gevent: models.GEvent):
         .setNavigation(navigation)
 
     return actionResponse.build()
+
 
 
 def truncate(message, max_message_length=40):
