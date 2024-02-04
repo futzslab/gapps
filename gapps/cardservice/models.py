@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class TimeZone(BaseModel):
-    id: str
-    offset: int
+    id: str = None
+    offset: int = None
 
 
 class CommonEvent(BaseModel):
