@@ -21,8 +21,8 @@ async def root():
 
 
 @app.post("/homepage", response_class=JSONResponse)
-async def homepage(gevent: dict):
-    
+async def homepage(gevent: models.GEvent):
+    gevent = gevent.dict()
     if "commonEventObject" not in gevent or "timeZone" not in gevent["commonEventObject"]:
         raise HTTPException(status_code=422, detail={"detail": "commonEventObject must contain timeZone"})
 
@@ -37,11 +37,16 @@ async def homepage(gevent: dict):
             message = 'Good afternoon'
 
     message += ' ' + gevent["commonEventObject"]["hostApp"]
+    
+    #return str(gevent) 
     return create_cat_card(message, True)
+    
+
 
 
 @app.post('/on_items_selected', response_class=JSONResponse)
 async def on_drive_items_selected(gevent: models.GEvent):
+    gevent = gevent.dict()
     all_items = gevent.drive.selectedItems
     all_items = all_items[:5]  # Include at most 5 items in the text.
     print(all_items)
@@ -51,9 +56,7 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: dict):
-    
-
+async def on_change_cat(gevent: models.GEvent):
     """Callback for the 'Change cat' button.
 
     Parameters
@@ -70,6 +73,7 @@ async def on_change_cat(gevent: dict):
     """
     # Get the text that was shown in the current cat image. This was passed as
     # a parameter on the Action set for the button.
+    gevent = gevent.dict()
     text =  str(gevent["commonEventObject"]["parameters"]["text"])
     #gevent.commonEventObject.parameters['text']
 
@@ -87,9 +91,9 @@ async def on_change_cat(gevent: dict):
 
     actionResponse = CardService.newActionResponseBuilder()  \
         .setNavigation(navigation)
-
+    
+    
     return actionResponse.build()
-
 
 
 def truncate(message, max_message_length=40):
@@ -131,8 +135,10 @@ def create_cat_card(text, is_homepage=False):
 
     # Create a button that changes the cat image when pressed.
     # Note: Action parameter keys and values must be strings.
+    # https://test-gapps.vercel.app/on_change_cat
+    # 
     action = CardService.newAction()  \
-        .setFunctionName('https://gwa.momentz.fr/on_change_cat') \
+        .setFunctionName("https://test-gapps.vercel.app/on_change_cat") \
         .setParameters({'text': text, 'is_homepage': str(is_homepage)})
 
     button = CardService.newTextButton()  \
@@ -194,6 +200,7 @@ def on_gmail_message(gevent: models.GEvent):
 
     # Get an access token scoped to the current message and use it for GmailApp
     # calls.
+    gevent = gevent.dict()
     access_token = gevent.authorizationEventObject.userOAuthToken
     cred = google.oauth2.credentials.Credentials(access_token)
     service = googleapiclient.discovery.build('gmail', 'v1', credentials=cred)
@@ -215,8 +222,7 @@ def on_gmail_message(gevent: models.GEvent):
 
     # If neccessary, truncate the subject to fit in the image.
     subject = truncate(subject)
-
-    return create_cat_card(subject)
+    return create_cat_card(subject, False)
 
 
 @app.post('/on_gmail_compose', response_class=JSONResponse)
@@ -235,6 +241,7 @@ def on_gmail_compose(gevent: models.GEvent):
         The card to show to the user.
 
     """
+    gevent = gevent.dict()
     header = CardService.newCardHeader()  \
         .setTitle('Insert cat')  \
         .setSubtitle('Add a custom cat image to your email message.')
@@ -247,7 +254,7 @@ def on_gmail_compose(gevent: models.GEvent):
 
     # Create a button that inserts the cat image when pressed.
     action = CardService.newAction()  \
-        .setFunctionName('https://gwa.momentz.fr/on_gmail_insert_cat')
+        .setFunctionName('https://test-gapps.vercel.app/on_gmail_insert_cat')
 
     button = CardService.newTextButton()  \
         .setText('Insert cat')  \
@@ -285,6 +292,7 @@ def on_gmail_insert_cat(gevent: models.GEvent):
 
     """
     # Get the text that was entered by the user.
+    gevent = gevent.dict()
     form_inputs = gevent.commonEventObject.formInputs
     text = ut.get_form_value(form_inputs, 'text')
     text = text[0] if len(text) else ''
@@ -303,13 +311,13 @@ def on_gmail_insert_cat(gevent: models.GEvent):
     imageHtmlContent =   \
         f'<img style="display: block max-height: 300px" src="{imageUrl}"/>'
 
-    draft_action = CardService.newUpdateDraftBodyAction()  \
+    draft_action = CardService.newUpdateDraftgeventAction()  \
         .addUpdateContent(imageHtmlContent,
                           CardService.ContentType.MUTABLE_HTML)  \
-        .setUpdateType(CardService.UpdateDraftBodyType.IN_PLACE_INSERT)
+        .setUpdateType(CardService.UpdateDraftgeventType.IN_PLACE_INSERT)
 
     response = CardService.newUpdateDraftActionResponseBuilder()  \
-        .setUpdateDraftBodyAction(draft_action)  \
+        .setUpdateDraftgeventAction(draft_action)  \
         .build()
 
     return response
@@ -332,6 +340,7 @@ def on_calendar_event_open(gevent: models.GEvent):
 
     """
     # Get the ID of the Calendar and the event
+    gevent = gevent.dict()
     calendar_id = gevent.calendar.calendarId
     event_id = gevent.calendar.id
 
